@@ -1,3 +1,5 @@
+
+
 package com.example.androsupport
 
 import android.content.Intent
@@ -7,9 +9,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cruise.R
 
-class MainActivity : AppCompatActivity() {
+class loginActivity : AppCompatActivity() {
      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+         setContentView(R.layout.activity_login_activity)
+
     }
 }
