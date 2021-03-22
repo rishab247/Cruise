@@ -1,16 +1,14 @@
-package com.example.cruise
+package com.example.cruise.UI.Tabs
 
-import android.media.Image
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.cruise.R
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 
@@ -81,5 +79,8 @@ class MainPage : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
 
+
+    }
 }

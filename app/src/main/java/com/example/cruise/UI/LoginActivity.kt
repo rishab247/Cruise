@@ -1,4 +1,4 @@
-package com.example.cruise
+package com.example.cruise.UI
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
+import com.example.cruise.Data.User_Info
+import com.example.cruise.R
+import com.example.cruise.UI.Tabs.MainPage
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class LoginActivity : AppCompatActivity() {
@@ -39,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
             var flag = 0;
             if(uidEtext.text.isEmpty()) {
                 flag=1
-                 Toast.makeText( this, "Invalid UID", Toast.LENGTH_SHORT).show();
+                 Toast.makeText(this, "Invalid UID", Toast.LENGTH_SHORT).show();
             }
             if( emailEtext.text.isEmpty()) {
                 flag=1
@@ -119,10 +125,11 @@ class LoginActivity : AppCompatActivity() {
 
         intent = Intent(this, MainPage::class.java)
 
-        intent.setFlags(
-            Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                    Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent.setFlags(
+//            Intent.FLAG_ACTIVITY_CLEAR_TOP or
+//                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+//                    Intent.FLAG_ACTIVITY_NEW_TASK
+//        )
 
         startActivity(intent)
     }
@@ -138,6 +145,16 @@ class LoginActivity : AppCompatActivity() {
         nextActivity()
     }
     else if(currentUser!==null && register){
+        //database
+        var userInfo = User_Info();
+        userInfo.Email  = emailEtext.text.toString()
+        userInfo.Uid  = emailEtext.text.toString().substring(0, 9)
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val myRef: DatabaseReference = database.getReference("Private/User_Info/"+currentUser.uid.toString())
+        myRef.setValue(userInfo)
+
+
+
 
         nextActivity()
     }
