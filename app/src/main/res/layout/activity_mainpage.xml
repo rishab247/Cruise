@@ -69,7 +69,7 @@
                 app:tabIndicatorColor="#FFF"
                 app:tabIndicatorHeight="3dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/red"
+                app:tabSelectedTextColor="@color/colorPrimary"
                 app:tabTextColor="#fff" />
 
 

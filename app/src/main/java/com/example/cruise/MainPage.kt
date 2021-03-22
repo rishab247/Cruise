@@ -1,5 +1,6 @@
 package com.example.cruise
 
+import android.media.Image
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -11,18 +12,30 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
 
 class MainPage : AppCompatActivity() {
+    private lateinit var logoutbtn: ImageView
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainpage)
+        auth = FirebaseAuth.getInstance()
+
+        logoutbtn = findViewById(R.id.logoutId)
 
 
-        val mLogoutButton: ImageView = findViewById(R.id.logoutId)
-
-        mLogoutButton.setOnClickListener{
-            Toast.makeText(this, "Logout Button", Toast.LENGTH_SHORT).show()
+        logoutbtn.setOnClickListener{
+            val currentUser = auth.currentUser
+            if(currentUser!=null) {
+                auth.signOut()
+                finish()
+            }
         }
+
+
+
 
 
         val tab_viewpager = findViewById<ViewPager>(R.id.tab_viewpager)
@@ -67,4 +80,6 @@ class MainPage : AppCompatActivity() {
             fragmentTitleList1.add(title)
         }
     }
+
+
 }
