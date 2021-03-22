@@ -1,4 +1,4 @@
-package com.example.cruise.UI
+package com.example.cruise.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cruise.R
-import com.example.cruise.UI.Tabs.MainPage
+import com.example.cruise.ui.Tabs.MainPage
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {

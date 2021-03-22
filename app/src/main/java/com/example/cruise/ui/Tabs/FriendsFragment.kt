@@ -1,4 +1,4 @@
-package com.example.cruise.UI.Tabs
+package com.example.cruise.ui.Tabs
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.cruise.R
 
-class ChatFragment : Fragment() {
+class FriendsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_chat, container, false)
+        val v = inflater.inflate(R.layout.fragment_friends, container, false)
+
+
 
         return v
     }

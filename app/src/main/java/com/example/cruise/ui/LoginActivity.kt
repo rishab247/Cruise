@@ -1,4 +1,4 @@
-package com.example.cruise.UI
+package com.example.cruise.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
-import com.example.cruise.UI.Tabs.MainPage
+import com.example.cruise.ui.Tabs.MainPage
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
 import com.google.firebase.database.DatabaseReference

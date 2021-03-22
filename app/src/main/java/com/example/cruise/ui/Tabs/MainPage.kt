@@ -1,5 +1,6 @@
-package com.example.cruise.UI.Tabs
+package com.example.cruise.ui.Tabs
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.annotation.Nullable
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.cruise.ProfileActivity
 import com.example.cruise.R
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +32,14 @@ class MainPage : AppCompatActivity() {
                 auth.signOut()
                 finish()
             }
+        }
+
+
+
+        var mGotoProfile: ImageView = findViewById(R.id.GotoProfile)
+        mGotoProfile.setOnClickListener{
+            intent = Intent(this, ProfileActivity:: class.java)
+            startActivity(intent)
         }
 
 

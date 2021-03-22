@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Tabs.FriendsFragment">
+    tools:context=".ui.Tabs.FriendsFragment">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

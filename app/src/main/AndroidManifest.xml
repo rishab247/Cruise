@@ -9,9 +9,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cruise">
-        <activity android:name=".UI.Tabs.MainPage" />
-        <activity android:name=".UI.LoginActivity" />
-        <activity android:name=".UI.SplashActivity">
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ui.Tabs.MainPage" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
