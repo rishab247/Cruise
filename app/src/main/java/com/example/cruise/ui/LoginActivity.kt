@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cruise.Data.User_Info
-import com.example.cruise.ProfileActivity
 import com.example.cruise.R
 import com.example.cruise.ui.Tabs.MainPage
 import com.google.android.gms.tasks.OnCompleteListener

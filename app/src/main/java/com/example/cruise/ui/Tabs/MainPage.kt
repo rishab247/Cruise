@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.example.cruise.ProfileActivity
+import com.example.cruise.ui.ProfileActivity
 import com.example.cruise.R
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
