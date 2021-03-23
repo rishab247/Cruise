@@ -9,7 +9,6 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cruise">
-        <activity android:name=".ui.EditProfile"></activity>
         <activity android:name=".ui.ProfileActivity" />
         <activity android:name=".ui.Tabs.MainPage" />
         <activity android:name=".ui.LoginActivity" />
