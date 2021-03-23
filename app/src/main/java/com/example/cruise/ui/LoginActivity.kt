@@ -7,14 +7,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
 import com.example.cruise.Data.User_Info
+import com.example.cruise.ProfileActivity
 import com.example.cruise.R
 import com.example.cruise.ui.Tabs.MainPage
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.*
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -24,10 +23,13 @@ class LoginActivity : AppCompatActivity() {
     lateinit  var uidEtext: EditText
     lateinit  var emailEtext: EditText
     lateinit  var passwordEtext: EditText
+    lateinit var database: FirebaseDatabase
+
     var TAG = "LoginActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+         database = FirebaseDatabase.getInstance()
 
 
         val mLoginButton: Button = findViewById(R.id.LoginBtn)
@@ -59,8 +61,8 @@ class LoginActivity : AppCompatActivity() {
             if(flag==0){
 
                 auth.signInWithEmailAndPassword(
-                    emailEtext.text.toString(),
-                    passwordEtext.text.toString()
+                        emailEtext.text.toString(),
+                        passwordEtext.text.toString()
                 )
                     .addOnCompleteListener(OnCompleteListener<AuthResult?> { task ->
                         if (!task.isSuccessful) {
@@ -70,27 +72,27 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d(TAG, "onComplete: invalid_email")
                                 //creating new user
                                 auth.createUserWithEmailAndPassword(
-                                    emailEtext.text.toString(),
-                                    passwordEtext.text.toString()
+                                        emailEtext.text.toString(),
+                                        passwordEtext.text.toString()
                                 )
-                                    .addOnCompleteListener(this) { task ->
-                                        if (task.isSuccessful) {
-                                            Log.d(TAG, "createUserWithEmail:success")
-                                            val user = auth.currentUser
-                                            updateUI(user, true)
-                                        } else {
-                                            Log.w(
-                                                TAG,
-                                                "createUserWithEmail:failure",
-                                                task.exception
-                                            )
-                                            Toast.makeText(
-                                                baseContext, "Authentication failed.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            updateUI(null, true)
+                                        .addOnCompleteListener(this) { task ->
+                                            if (task.isSuccessful) {
+                                                Log.d(TAG, "createUserWithEmail:success")
+                                                val user = auth.currentUser
+                                                updateUI(user, true)
+                                            } else {
+                                                Log.w(
+                                                        TAG,
+                                                        "createUserWithEmail:failure",
+                                                        task.exception
+                                                )
+                                                Toast.makeText(
+                                                        baseContext, "Authentication failed.",
+                                                        Toast.LENGTH_SHORT
+                                                ).show()
+                                                updateUI(null, true)
+                                            }
                                         }
-                                    }
                             } catch (wrongPassword: FirebaseAuthInvalidCredentialsException) {
                                 Log.d(TAG, "onComplete: wrong_password")
                             } catch (e: Exception) {
@@ -118,20 +120,32 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-    private fun nextActivity() {
+    private fun nextActivity(register: Boolean) {
         emailEtext.setText("")
         passwordEtext.setText("")
         uidEtext.setText("")
 
-        intent = Intent(this, MainPage::class.java)
+        if(!register){
+
+            intent = Intent(this, MainPage::class.java)
 
 //        intent.setFlags(
 //            Intent.FLAG_ACTIVITY_CLEAR_TOP or
 //                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
 //                    Intent.FLAG_ACTIVITY_NEW_TASK
 //        )
+            startActivity(intent)
+        }else{
 
-        startActivity(intent)
+            intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("Register",true)
+//        intent.setFlags(
+//            Intent.FLAG_ACTIVITY_CLEAR_TOP or
+//                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+//                    Intent.FLAG_ACTIVITY_NEW_TASK
+//        )
+            startActivity(intent)
+        }
     }
     public override fun onStart() {
         super.onStart()
@@ -140,27 +154,58 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?, register: Boolean) {
-    if(currentUser!==null && !register){
+        if(currentUser!==null &&  register){
+            //database
+            var userInfo = User_Info();
+            userInfo.Email  = emailEtext.text.toString()
+            userInfo.Uid  = emailEtext.text.toString().substring(0, 9)
+            val myRef: DatabaseReference = database.getReference("Private/User_Info/" + currentUser.uid.toString())
+            myRef.setValue(userInfo)
+            nextActivity(true)
+            //stop progress bar
 
-        nextActivity()
-    }
-    else if(currentUser!==null && register){
-        //database
-        var userInfo = User_Info();
-        userInfo.Email  = emailEtext.text.toString()
-        userInfo.Uid  = emailEtext.text.toString().substring(0, 9)
-        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-        val myRef: DatabaseReference = database.getReference("Private/User_Info/"+currentUser.uid.toString())
-        myRef.setValue(userInfo)
+        }
 
+        else if(currentUser!==null) {
 
+            val myRef: DatabaseReference = database.getReference("Private/User_Info/" + currentUser.uid.toString())
+             myRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var userInfo = dataSnapshot.getValue(User_Info::class.java)
 
+                    if (userInfo != null) {
+                        if( userInfo.Name.toString().equals("")){
+                            var userInfo = User_Info();
+                            userInfo.Email  = emailEtext.text.toString()
+                            userInfo.Uid  = emailEtext.text.toString().substring(0, 9)
+                            val myRef: DatabaseReference = database.getReference("Private/User_Info/" + currentUser.uid.toString())
+                            myRef.setValue(userInfo)
+                            nextActivity(true)
+                            //stop progress bar
 
-        nextActivity()
-    }
-    else{
-        //stop progress bar
+                        }
+                         else{
+                            nextActivity(false)
 
-    }
+                            //stop progress bar
+                        }
+                    }
+                    else{
+                        nextActivity(true)
+                        //stop progress bar
+
+                    }
+
+                 }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                    //stop progress bar
+
+                }
+            })
+        }
+
     }
 }
