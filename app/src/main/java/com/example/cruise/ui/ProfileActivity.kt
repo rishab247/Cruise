@@ -1,6 +1,5 @@
 package com.example.cruise.ui
 
-import android.R.attr
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -18,38 +17,36 @@ import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.example.cruise.ui.Tabs.MainPage
 import com.google.android.material.textfield.TextInputLayout
-import com.theartofdev.edmodo.cropper.CropImage
-import de.hdodenhof.circleimageview.CircleImageView
-
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.theartofdev.edmodo.cropper.CropImage
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileActivity : AppCompatActivity() {
     var registerMode: Boolean = false
     val TAG = "ProfileActivity"
     val RESULT_LOAD_IMAGE = 1
     var imageuri: Uri? = null
-    var imageresponce: String? = null
 
     //View
     lateinit var mProfileImage: CircleImageView
-    lateinit var   uidInput: TextInputLayout
-    lateinit var   mUidInput: EditText
-    lateinit var  nameInput: TextInputLayout
-    lateinit var  mNameInput: EditText
-    lateinit var  mSaveButton: Button
-    lateinit var  mStatusInput: EditText
-    lateinit var  mEmailInput: EditText
-    lateinit var  mEditProfile: ImageView
+    lateinit var uidInput: TextInputLayout
+    lateinit var mUidInput: EditText
+    lateinit var nameInput: TextInputLayout
+    lateinit var mNameInput: EditText
+    lateinit var mSaveButton: Button
+    lateinit var mStatusInput: EditText
+    lateinit var mEmailInput: EditText
+    lateinit var mEditProfile: ImageView
 
 
     //DATABASE
-    lateinit var user_info:User_Info
+    lateinit var user_info: User_Info
     lateinit var mAuth: FirebaseAuth
     lateinit var database: FirebaseDatabase
-     var  currentUser : FirebaseUser? =null
+    var currentUser: FirebaseUser? = null
     lateinit var myRef: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +54,7 @@ class ProfileActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
-         currentUser = mAuth.currentUser
+        currentUser = mAuth.currentUser
 
         registerMode = intent.getBooleanExtra("Register", false)
         mUidInput = findViewById(R.id.first)
@@ -77,6 +74,15 @@ class ProfileActivity : AppCompatActivity() {
         val mSaveButton: Button = findViewById(R.id.button)
         val mStatusInput: EditText = findViewById(R.id.status_id)
         mProfileImage = findViewById(R.id.circleImageView2)
+
+        mProfileImage.setOnClickListener {
+            Log.e(TAG, "onCreate: click")
+            val i = Intent(
+                    Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+
+            startActivityForResult(Intent.createChooser(i, "Select Picture"), RESULT_LOAD_IMAGE)
+        }
 
 
         uidInput.isEnabled = false
@@ -115,7 +121,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 if (registerMode && inputflag && currentUser != null) {
                     //save data
-                        savedata()
+                    savedata()
 
                     intent = Intent(this, MainPage::class.java)
                     startActivity(intent)
@@ -134,14 +140,7 @@ class ProfileActivity : AppCompatActivity() {
             }
 
 
-            mProfileImage.setOnClickListener {
-                Log.e(TAG, "onCreate: click" )
-                val i = Intent(
-                        Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                )
 
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), RESULT_LOAD_IMAGE)
-            }
         }
     }
 
@@ -149,7 +148,7 @@ class ProfileActivity : AppCompatActivity() {
         user_info.Name = mNameInput.text.toString()
         user_info.status = mStatusInput.text.toString()
         user_info.save(this)
-        myRef = database.getReference("Private/User_Info/" + (currentUser?.uid ?:"error" ))
+        myRef = database.getReference("Private/User_Info/" + (currentUser?.uid ?: "error"))
 
         myRef.setValue(user_info)
     }
@@ -161,22 +160,22 @@ class ProfileActivity : AppCompatActivity() {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
             imageuri = data!!.data
             CropImage.activity(imageuri)
-                .setAspectRatio(1, 1)
-                .start(this)
+                    .setAspectRatio(1, 1)
+                    .start(this)
         }
-        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-            var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+            val result: CropImage.ActivityResult = CropImage.getActivityResult(data)
 
-            if(resultCode == RESULT_OK){
-                var resultUri : Uri = result.uri;
+            if (resultCode == RESULT_OK) {
+                val resultUri: Uri = result.uri;
 
                 try {
-                    var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, resultUri)
+                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, resultUri)
                     val converetdImage: Bitmap = getResizedBitmap(bitmap, 200)
                     mProfileImage.setImageBitmap(converetdImage)
 
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     Log.e("Exception in image", e.message.toString())
                 }
             }
@@ -185,14 +184,14 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun getResizedBitmap(bitmap: Bitmap, i: Int): Bitmap {
-        var width : Int = bitmap.width
-        var height :Int  = bitmap.height
+        var width: Int = bitmap.width
+        var height: Int = bitmap.height
 
-        var bitmapratio : Float = width.toFloat()/height
-        if(bitmapratio > 1){
+        var bitmapratio: Float = width.toFloat() / height
+        if (bitmapratio > 1) {
             width = i
-            height = (width/bitmapratio).toInt()
-        }else{
+            height = (width / bitmapratio).toInt()
+        } else {
             height = i
             width = (height * bitmapratio).toInt()
         }
@@ -202,11 +201,11 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setfields() {
 
-        Log.e(TAG, "setfields: "+user_info.Email )
-            if(!user_info.status.toString().trim().isEmpty())
-             mStatusInput.setText(user_info.status);
+        Log.e(TAG, "setfields: " + user_info.Email)
+        if (user_info.status.toString().trim().isNotEmpty())
+            mStatusInput.setText(user_info.status);
 
-            mNameInput.setText(user_info.Name);
+        mNameInput.setText(user_info.Name);
 
         mUidInput.setText(user_info.Uid);
         mEmailInput.setText(user_info.Email)
@@ -218,8 +217,7 @@ class ProfileActivity : AppCompatActivity() {
         Log.e(TAG, "onBackPressed: $registerMode")
         if (!registerMode) {
             super.onBackPressed()
-        }
-        else{
+        } else {
             mAuth.signOut()
             finish()
         }
