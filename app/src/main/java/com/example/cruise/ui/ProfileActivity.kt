@@ -1,6 +1,8 @@
 package com.example.cruise.ui
 
+import android.R.attr
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +17,7 @@ import com.example.cruise.R
 import com.google.android.material.textfield.TextInputLayout
 import com.theartofdev.edmodo.cropper.CropImage
 import de.hdodenhof.circleimageview.CircleImageView
+
 
 class ProfileActivity : AppCompatActivity() {
     var registerMode: Boolean = false
@@ -66,7 +69,7 @@ class ProfileActivity : AppCompatActivity() {
 
         mProfileImage.setOnClickListener {
             val i = Intent(
-                Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             )
 
             startActivityForResult(Intent.createChooser(i, "Select Picture"), RESULT_LOAD_IMAGE)
@@ -82,11 +85,43 @@ class ProfileActivity : AppCompatActivity() {
             CropImage.activity(imageuri)
                 .setAspectRatio(1, 1)
                 .start(this)
+        }
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
 
-            mProfileImage.setImageURI(imageuri)
+            var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+
+            if(resultCode == RESULT_OK){
+                var resultUri : Uri = result.uri;
+
+                try {
+                    var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, resultUri)
+                    val converetdImage: Bitmap = getResizedBitmap(bitmap, 200)
+                    mProfileImage.setImageBitmap(converetdImage)
+
+                }catch (e: Exception){
+                    Log.e("Exception in image", e.message.toString())
+                }
+            }
 
         }
     }
+
+    private fun getResizedBitmap(bitmap: Bitmap, i: Int): Bitmap {
+        var width : Int = bitmap.width
+        var height :Int  = bitmap.height
+
+        var bitmapratio : Float = width.toFloat()/height
+        if(bitmapratio > 1){
+            width = i
+            height = (width/bitmapratio).toInt()
+        }else{
+            height = i
+            width = (height * bitmapratio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
+    }
+
 
 
     override fun onBackPressed() {
