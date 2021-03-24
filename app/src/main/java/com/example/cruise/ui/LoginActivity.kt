@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         uidEtext = findViewById(R.id.editTextTextPersonName)
         emailEtext = findViewById(R.id.editTextTextPersonName2);
         passwordEtext = findViewById(R.id.editTextTextPassword2);
-        auth = FirebaseAuth.getInstance()
+            auth = FirebaseAuth.getInstance()
         
 
 
@@ -168,7 +168,7 @@ class LoginActivity : AppCompatActivity() {
         else if(currentUser!==null) {
 
             val myRef: DatabaseReference = database.getReference("Private/User_Info/" + currentUser.uid.toString())
-             myRef.addValueEventListener(object : ValueEventListener {
+             myRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     var userInfo = dataSnapshot.getValue(User_Info::class.java)
 
@@ -177,6 +177,7 @@ class LoginActivity : AppCompatActivity() {
                             var userInfo = User_Info();
                             userInfo.Email  = emailEtext.text.toString()
                             userInfo.Uid  = emailEtext.text.toString().substring(0, 9)
+                            userInfo.save(this@LoginActivity)
                             val myRef: DatabaseReference = database.getReference("Private/User_Info/" + currentUser.uid.toString())
                             myRef.setValue(userInfo)
                             nextActivity(true)

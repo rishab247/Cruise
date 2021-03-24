@@ -11,29 +11,67 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.example.cruise.Data.User_Info
 import com.example.cruise.R
+import com.example.cruise.ui.Tabs.MainPage
 import com.google.android.material.textfield.TextInputLayout
 import com.theartofdev.edmodo.cropper.CropImage
 import de.hdodenhof.circleimageview.CircleImageView
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class ProfileActivity : AppCompatActivity() {
     var registerMode: Boolean = false
     val TAG = "ProfileActivity"
-
     val RESULT_LOAD_IMAGE = 1
     var imageuri: Uri? = null
     var imageresponce: String? = null
+
+    //View
     lateinit var mProfileImage: CircleImageView
+    lateinit var   uidInput: TextInputLayout
+    lateinit var   mUidInput: EditText
+    lateinit var  nameInput: TextInputLayout
+    lateinit var  mNameInput: EditText
+    lateinit var  mSaveButton: Button
+    lateinit var  mStatusInput: EditText
+    lateinit var  mEmailInput: EditText
+    lateinit var  mEditProfile: ImageView
 
 
+    //DATABASE
+    lateinit var user_info:User_Info
+    lateinit var mAuth: FirebaseAuth
+    lateinit var database: FirebaseDatabase
+     var  currentUser : FirebaseUser? =null
+    lateinit var myRef: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        mAuth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+         currentUser = mAuth.currentUser
 
+        registerMode = intent.getBooleanExtra("Register", false)
+        mUidInput = findViewById(R.id.first)
+        uidInput = findViewById(R.id.textInputLayout)
+        nameInput = findViewById(R.id.textInputLayout2)
+        mNameInput = findViewById(R.id.second)
+        mSaveButton = findViewById(R.id.button)
+        mStatusInput = findViewById(R.id.status_id)
+        mEditProfile = findViewById(R.id.editProfile)
+        mEmailInput = findViewById(R.id.third)
+
+        user_info = User_Info()
+        user_info.get(this)
+        setfields()
         val uidInput: TextInputLayout = findViewById(R.id.textInputLayout)
         val nameInput: TextInputLayout = findViewById(R.id.textInputLayout2)
         val mSaveButton: Button = findViewById(R.id.button)
@@ -55,25 +93,65 @@ class ProfileActivity : AppCompatActivity() {
             mStatusInput.isEnabled = true
             mSaveButton.visibility = View.VISIBLE
         }
+        if (registerMode) {
+            mEditProfile.callOnClick()
+            mEditProfile.isClickable = false
+        }
 
         mSaveButton.setOnClickListener {
             if (mSaveButton.isVisible) {
-                mSaveButton.visibility = View.GONE
-                uidInput.isEnabled = false
-                nameInput.isEnabled = false
-                mStatusInput.isEnabled = false
+
+                var inputflag = true
+                if (mStatusInput.text.toString().trim().equals("")) {
+                    inputflag = false
+                    Toast.makeText(this, "Invalid Status", Toast.LENGTH_SHORT).show()
+                }
+                if (mNameInput.text.toString().trim().equals("")) {
+                    inputflag = false
+                    Toast.makeText(this, "Invalid Name", Toast.LENGTH_SHORT).show()
+
+                }
+
+
+                if (registerMode && inputflag && currentUser != null) {
+                    //save data
+                        savedata()
+
+                    intent = Intent(this, MainPage::class.java)
+                    startActivity(intent)
+
+
+                }
+
+                if (inputflag) {
+                    savedata()
+                    mSaveButton.visibility = View.GONE
+                    uidInput.isEnabled = false
+                    nameInput.isEnabled = false
+                    mStatusInput.isEnabled = false
+                }
+
             }
 
+
+            mProfileImage.setOnClickListener {
+                Log.e(TAG, "onCreate: click" )
+                val i = Intent(
+                        Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
+
+                startActivityForResult(Intent.createChooser(i, "Select Picture"), RESULT_LOAD_IMAGE)
+            }
         }
+    }
 
+    private fun savedata() {
+        user_info.Name = mNameInput.text.toString()
+        user_info.status = mStatusInput.text.toString()
+        user_info.save(this)
+        myRef = database.getReference("Private/User_Info/" + (currentUser?.uid ?:"error" ))
 
-        mProfileImage.setOnClickListener {
-            val i = Intent(
-                    Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
-
-            startActivityForResult(Intent.createChooser(i, "Select Picture"), RESULT_LOAD_IMAGE)
-        }
+        myRef.setValue(user_info)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -122,12 +200,28 @@ class ProfileActivity : AppCompatActivity() {
         return Bitmap.createScaledBitmap(bitmap, width, height, true)
     }
 
+    private fun setfields() {
+
+        Log.e(TAG, "setfields: "+user_info.Email )
+            if(!user_info.status.toString().trim().isEmpty())
+             mStatusInput.setText(user_info.status);
+
+            mNameInput.setText(user_info.Name);
+
+        mUidInput.setText(user_info.Uid);
+        mEmailInput.setText(user_info.Email)
+//        mUidInput.setText(user_info.Uid);
+    }
 
 
     override fun onBackPressed() {
         Log.e(TAG, "onBackPressed: $registerMode")
         if (!registerMode) {
             super.onBackPressed()
+        }
+        else{
+            mAuth.signOut()
+            finish()
         }
     }
 }
