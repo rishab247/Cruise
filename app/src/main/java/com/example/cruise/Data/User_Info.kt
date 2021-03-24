@@ -22,7 +22,7 @@ private lateinit  var pref :SharedPreferences
 fun save(b: Context) {
     Log.e("TAG", "setfields: class  "+Uid )
 
-    pref = b.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+    pref = b.getSharedPreferences("MyPREFERENCES1", Context.MODE_PRIVATE);
     val editor: Editor = pref.edit()
     editor.putString("Name", Name);
     editor.putString("Uid", Uid);
@@ -36,7 +36,7 @@ fun save(b: Context) {
 
 }
     fun get(b: Context) {
-        pref = b.getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        pref = b.getSharedPreferences("MyPREFERENCES1", Context.MODE_PRIVATE);
 
         Name = pref.getString("Name", "").toString();
        Uid= pref.getString("Uid", "").toString();

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.cruise.Data.User_Info
 import com.example.cruise.ui.ProfileActivity
 import com.example.cruise.R
 import com.google.android.material.tabs.TabLayout
@@ -17,12 +18,13 @@ import com.google.firebase.auth.FirebaseAuth
 class MainPage : AppCompatActivity() {
     private lateinit var logoutbtn: ImageView
     private lateinit var auth: FirebaseAuth
+//    lateinit var user_info: User_Info
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainpage)
         auth = FirebaseAuth.getInstance()
-
+//        user_info.get(this)
         logoutbtn = findViewById(R.id.logoutId)
 
 

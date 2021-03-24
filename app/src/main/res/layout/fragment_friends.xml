@@ -5,5 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.Tabs.FriendsFragment">
+<!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--    android:id="@+id/swipe"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
 
+<!--    android:background="@color/colorPrimary"-->
+<!--    ></androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

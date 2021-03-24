@@ -1,22 +1,79 @@
 package com.example.cruise.ui.Tabs
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.cruise.Data.User_Info
 import com.example.cruise.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
+import java.util.*
 
 class FriendsFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    lateinit var memberData :ArrayList<User_Info>
+
+
+    lateinit var user_info:User_Info
+    lateinit var mAuth: FirebaseAuth
+    lateinit var database: FirebaseDatabase
+    var  currentUser : FirebaseUser? =null
+    lateinit var myRef: DatabaseReference
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val v = inflater.inflate(R.layout.fragment_friends, container, false)
+        mAuth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        currentUser = mAuth.currentUser
+//        swipeRefreshLayout = v.findViewById(R.id.swipe);
+//        swipeRefreshLayout.canScrollVertically()
+//        swipeRefreshLayout.setOnRefreshListener {
+//
+//           swipeRefreshLayout.isRefreshing = false
+//        }
+        user_info = User_Info()
+        user_info.get(activity!!)
 
-
+        loaddata()
 
         return v
     }
 
+    private fun loaddata() {
+        myRef = database.getReference("Public/member_list/")
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap in snapshot.children) {
+                    var data = snap.getValue(User_Info::class.java)
+                    if (data != null) {
+                        Log.e(TAG, "onDataChange: "+data.Uid )
+                        if (user_info.Uid != data.Uid) {
+                            memberData.add(data)
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 }

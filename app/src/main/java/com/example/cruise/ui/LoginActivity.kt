@@ -158,6 +158,8 @@ class LoginActivity : AppCompatActivity() {
             var userInfo = User_Info();
             userInfo.Email  = emailEtext.text.toString()
             userInfo.Uid  = emailEtext.text.toString().substring(0, 9)
+            userInfo.save(this@LoginActivity)
+
             val myRef: DatabaseReference = database.getReference("Private/User_Info/" + currentUser.uid.toString())
             myRef.setValue(userInfo)
             nextActivity(true)
