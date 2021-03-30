@@ -49,6 +49,7 @@ class MainPage : AppCompatActivity() {
 
 
         val tab_viewpager = findViewById<ViewPager>(R.id.tab_viewpager)
+        tab_viewpager.offscreenPageLimit  = 2
         val tab_tablayout = findViewById<TabLayout>(R.id.tab_tablayout)
 
         setupViewPager(tab_viewpager)

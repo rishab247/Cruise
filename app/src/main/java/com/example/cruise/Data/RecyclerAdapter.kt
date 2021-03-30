@@ -1,6 +1,7 @@
 package com.example.cruise.Data
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import com.example.cruise.R
 import com.example.cruise.ui.BottomSheetFragment
 
 
-class RecyclerAdapter(private val data: List<FriendsData>, val fm: FragmentManager) : RecyclerView.Adapter<RecyclerAdapter.FriendsViewHolder>() {
+class RecyclerAdapter(private val data: List<User_Info>, val fm: FragmentManager) : RecyclerView.Adapter<RecyclerAdapter.FriendsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -27,11 +28,12 @@ class RecyclerAdapter(private val data: List<FriendsData>, val fm: FragmentManag
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
 
-        holder.textView1.text = currentItem.name
-        holder.textView2.text = currentItem.id
+        holder.textView1.text = currentItem.Name
+        holder.textView2.text = currentItem.Uid
 
         val bottomsheet = BottomSheetFragment()
-
+        val bundle = Bundle()
+        bundle.putParcelable("data",currentItem )
 
         // implementing the functionality of recycler view
         holder.itemView.setOnClickListener{

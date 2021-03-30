@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FriendsFragment : Fragment() {
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -43,15 +44,14 @@ class FriendsFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
         currentUser = mAuth.currentUser
+        memberData = ArrayList()
 //        swipeRefreshLayout = v.findViewById(R.id.swipe);
 //        swipeRefreshLayout.canScrollVertically()
 //        swipeRefreshLayout.setOnRefreshListener {
-//
 //           swipeRefreshLayout.isRefreshing = false
 //        }
         user_info = User_Info()
         user_info.get(activity!!)
-       // memberData = null
 
         loaddata()
 
@@ -63,8 +63,8 @@ class FriendsFragment : Fragment() {
 
         // implementing the list view for friend list
         mListView = v.findViewById(R.id.listView)
-        val exampleList = generateDummyList(10)
-        mListView.adapter = RecyclerAdapter(exampleList, fm)
+//        val exampleList = generateDummyList(10)
+        mListView.adapter = RecyclerAdapter(memberData!!, fm)
         mListView.layoutManager = LinearLayoutManager(context)
         mListView.setHasFixedSize(true)
 
@@ -82,9 +82,14 @@ class FriendsFragment : Fragment() {
                     if (data != null) {
                         Log.e(TAG, "onDataChange: " + data.Uid)
                         if (user_info.Uid != data.Uid) {
+
                             memberData?.add(data)
+                            mListView.adapter?.notifyDataSetChanged()
+
                         }
                     }
+
+
 
                 }
             }
