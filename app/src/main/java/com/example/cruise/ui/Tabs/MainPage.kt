@@ -53,8 +53,8 @@ class MainPage : AppCompatActivity() {
 
 
 
-        val context: Context = applicationContext as MainPage
-        val friends = BottomSheetFriendList(context)
+//        val context: Context = applicationContext as MainPage
+        val friends = BottomSheetFriendList(applicationContext)
 
         val mNotification: LottieAnimationView = findViewById(R.id.lottieAnimationView2);
         mNotification.setOnClickListener{

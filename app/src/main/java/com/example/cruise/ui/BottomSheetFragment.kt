@@ -29,7 +29,7 @@ class BottomSheetFragment: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sendRequest  =view.findViewById(R.id.sendrequest);
+        sendRequest  = view.findViewById(R.id.sendrequest);
 
 
         sendRequest.setOnClickListener{
