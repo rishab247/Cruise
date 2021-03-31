@@ -15,6 +15,8 @@ class User_Info() : Parcelable {
     var status: String = ""
     var Token: String = ""
     var RequestToken: String = ""
+    var msgToken: String = ""
+    var time: String = ""
     private lateinit var pref: SharedPreferences
 
     constructor(parcel: Parcel) : this() {
