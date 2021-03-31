@@ -1,19 +1,25 @@
 package com.example.cruise.ui.Tabs
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.airbnb.lottie.LottieAnimationView
+import com.example.cruise.BottomSheetFriendList
 import com.example.cruise.Data.User_Info
 import com.example.cruise.ui.ProfileActivity
 import com.example.cruise.R
+import com.example.cruise.ui.BottomSheetFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.example.cruise.ui.Tabs.MainPage as MainPage
 
 class MainPage : AppCompatActivity() {
     private lateinit var logoutbtn: ImageView
@@ -25,23 +31,37 @@ class MainPage : AppCompatActivity() {
         setContentView(R.layout.activity_mainpage)
         auth = FirebaseAuth.getInstance()
 //        user_info.get(this)
-        logoutbtn = findViewById(R.id.logoutId)
+//        logoutbtn = findViewById(R.id.logoutId)
+//
+//
+//        logoutbtn.setOnClickListener{
+//            val currentUser = auth.currentUser
+//            if(currentUser!=null) {
+//                auth.signOut()
+//                finish()
+//            }
+//        }
 
 
-        logoutbtn.setOnClickListener{
-            val currentUser = auth.currentUser
-            if(currentUser!=null) {
-                auth.signOut()
-                finish()
-            }
+
+        val mGotoProfile: ImageView = findViewById(R.id.GotoProfile)
+        mGotoProfile.setOnClickListener{
+            intent = Intent(this, ProfileActivity:: class.java)
+            startActivity(intent)
         }
 
 
 
-        var mGotoProfile: ImageView = findViewById(R.id.GotoProfile)
-        mGotoProfile.setOnClickListener{
-            intent = Intent(this, ProfileActivity:: class.java)
-            startActivity(intent)
+
+        val context: Context = applicationContext as MainPage
+        val friends = BottomSheetFriendList(context)
+
+        val mNotification: LottieAnimationView = findViewById(R.id.lottieAnimationView2);
+        mNotification.setOnClickListener{
+            friends.show(
+                    supportFragmentManager,
+                    "BottomSheetDialog"
+            )
         }
 
 

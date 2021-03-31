@@ -13,19 +13,16 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.cruise.Data.FriendsData
 import com.example.cruise.Data.RecyclerAdapter
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class FriendsFragment : Fragment() {
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    var memberData: ArrayList<User_Info>?= ArrayList<User_Info>()
+    var memberData: ArrayList<User_Info>? = ArrayList<User_Info>()
 
 
     lateinit var user_info: User_Info
@@ -90,7 +87,6 @@ class FriendsFragment : Fragment() {
                     }
 
 
-
                 }
             }
 
@@ -101,24 +97,5 @@ class FriendsFragment : Fragment() {
         })
     }
 
-    private fun generateDummyList(size: Int): List<FriendsData> {
-        val list = ArrayList<FriendsData>()
 
-        list.add(FriendsData("Tushar Tambi", "18BCS1088", "1"));
-        list.add(FriendsData("Rishab AggarWal", "18BCS1767", "1"));
-        list.add(FriendsData("Amit Kumar", "18BCS1001", "1"));
-        list.add(FriendsData("Rohit Kumar", "18BCS1002", "1"));
-        list.add(FriendsData("Aadarsh Singh", "18BCS1003", "1"));
-        list.add(FriendsData("Aman Sharma", "18BCS1004", "1"));
-        list.add(FriendsData("Aman Bhai", "18BCS1005", "1"));
-        list.add(FriendsData("Harsh Yadav", "18BCS1006", "1"));
-        list.add(FriendsData("Himanshu Gupta", "18BCS1007", "1"));
-        list.add(FriendsData("Digvijay Meena", "18BCS1008", "1"));
-        list.add(FriendsData("Roshan Meena", "18BCS1009", "1"));
-        list.add(FriendsData("Aryan Shekhawat", "18BCS1010", "1"));
-        list.add(FriendsData("Honey Singh", "18BCS1011", "1"));
-        list.add(FriendsData("Ayush Aggarwal", "18BCS1012", "1"));
-
-        return list
-    }
 }
