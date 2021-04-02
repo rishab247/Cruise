@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cruise.R
 
-class FriendListAdapter(private val data: ArrayList<User_Info>) : RecyclerView.Adapter<FriendListAdapter.FriendsViewHolder>(){
+class FriendListAdapter(private val data: ArrayList<FriendsData>) : RecyclerView.Adapter<FriendListAdapter.FriendsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -22,9 +22,9 @@ class FriendListAdapter(private val data: ArrayList<User_Info>) : RecyclerView.A
 
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
-
-        holder.textView1.text = currentItem.Name
-        holder.textView2.text = currentItem.Email
+//
+//        holder.textView1.text = currentItem.name
+//        holder.textView2.text = currentItem.id
 
     }
 

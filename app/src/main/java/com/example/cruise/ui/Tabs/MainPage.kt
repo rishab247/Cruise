@@ -2,21 +2,18 @@ package com.example.cruise.ui.Tabs
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.ListView
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
-import com.example.cruise.Data.FriendListAdapter
-import com.example.cruise.Data.FriendsData
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.example.cruise.ui.ProfileActivity
@@ -24,23 +21,22 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
-import java.util.*
-import kotlin.collections.ArrayList
+import com.google.firebase.database.FirebaseDatabase
 
 class MainPage : AppCompatActivity() {
     private lateinit var logoutbtn: ImageView
     private lateinit var auth: FirebaseAuth
-    private lateinit var currentuser:FirebaseUser
-//    lateinit var user_info: User_Info
-lateinit var database: FirebaseDatabase
-   lateinit var listData: ArrayList<User_Info>
+    private lateinit var currentuser: FirebaseUser
+
+    //    lateinit var user_info: User_Info
+    lateinit var database: FirebaseDatabase
+    lateinit var listData: ArrayList<User_Info>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainpage)
         auth = FirebaseAuth.getInstance()
         currentuser = auth.currentUser!!
-            database = FirebaseDatabase.getInstance()
+        database = FirebaseDatabase.getInstance()
 //        user_info.get(this)
 //        logoutbtn = findViewById(R.id.logoutId)
 //
@@ -62,51 +58,30 @@ lateinit var database: FirebaseDatabase
 
         listData = ArrayList<User_Info>()
 
+
         val mNotification: LottieAnimationView = findViewById(R.id.lottieAnimationView2);
         mNotification.setOnClickListener {
-            val myRef: DatabaseReference = database.getReference("Private/friend_list/" + currentuser.uid.toString())
 
+            val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+            val bottomSheetView: View = LayoutInflater.from(applicationContext).inflate(R.layout.friend_request, findViewById(R.id.bottomSheet1))
 
-            myRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (snap in snapshot.children) {
-                        var data = snap.getValue(User_Info::class.java)
-                        if (listData != null) {
-                            if (data != null) {
-                                listData.add(data)
-                                Log.e("TAG", "onDataChange: "+data.Uid )
-                            }
-                        }
+            bottomSheetDialog.setContentView(bottomSheetView)
+            bottomSheetDialog.setCanceledOnTouchOutside(true)
 
+            val listView: ListView = bottomSheetView.findViewById(R.id.ListView)
 
-                    }
-                    val bottomsheet: BottomSheetDialog = BottomSheetDialog(this@MainPage, R.style.Theme_Design_BottomSheetDialog)
+            val names = arrayOf("First", "second", "third", "Fourth", "Five", "Six")
 
-                    val bottomSheetView: View = LayoutInflater.from(applicationContext).inflate(R.layout.friend_request, findViewById(R.id.bottomSheet))
+            val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, names)
 
-                    bottomsheet.setContentView(bottomSheetView)
-                    val listView: RecyclerView? = bottomsheet.findViewById(R.id.friendList)
-
-
-                    bottomsheet.show()
-                    Log.e("Data in List", listData.toString())
-                    listView?.adapter = FriendListAdapter(listData!!)
-                    listView?.layoutManager = LinearLayoutManager(this@MainPage)
-//            listView?.setHasFixedSize(true)
+            listView.adapter = arrayAdapter
 
 
 
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+            bottomSheetDialog.show()
 
 
-
-
+            //bottomsheetFragment.show(supportFragmentManager, "BottomSheetDialog")
         }
 
 
@@ -159,3 +134,44 @@ lateinit var database: FirebaseDatabase
 
     }
 }
+
+//
+//val myRef: DatabaseReference = database.getReference("Private/friend_list/" + currentuser.uid.toString())
+//
+//
+//myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//    override fun onDataChange(snapshot: DataSnapshot) {
+//        for (snap in snapshot.children) {
+//            val data = snap.getValue(User_Info::class.java)
+//            if (data != null) {
+//                listData.add(data)
+//                Log.e("TAG", "onDataChange: " + data.Uid)
+//            }
+//
+//
+//        }
+//
+//
+//
+//    }
+//
+//    override fun onCancelled(error: DatabaseError) {
+//        TODO("Not yet implemented")
+//    }
+//
+//})
+
+
+// val listView: RecyclerView? = bottomsheet.findViewById(R.id.friendList)
+
+
+//                    Log.e("Data in List", listData.toString())
+//                    listView?.adapter = FriendListAdapter(listData)
+//                    listView?.layoutManager = LinearLayoutManager(this@MainPage)
+//                    listView?.setHasFixedSize(true)
+//
+
+
+//val listView: ListView = v.findViewById(R.id.listView)
+//
+
