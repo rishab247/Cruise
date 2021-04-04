@@ -13,7 +13,7 @@ class FriendRequestReceiveListAdapter(private val data: ArrayList<User_Info>, fm
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-                R.layout.friendlist_row,
+                R.layout.friendrequest_listrow,
                 parent,
                 false
         )

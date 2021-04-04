@@ -29,7 +29,7 @@ class FriendRequestReceiveBottomSheet : BottomSheetDialogFragment() {
     lateinit var database: FirebaseDatabase
     lateinit var friensrequestlist: RecyclerView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val v: View = inflater.inflate(R.layout.friend_request, container, false)
+        val v: View = inflater.inflate(R.layout.friendrequest_receive, container, false)
 
 
 

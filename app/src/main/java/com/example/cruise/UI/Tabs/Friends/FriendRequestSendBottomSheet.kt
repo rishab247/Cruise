@@ -30,7 +30,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
     //    lateinit var view
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.friends_details, container, false)
+        var view = inflater.inflate(R.layout.friendsrequestsend_details, container, false)
 
 
 
