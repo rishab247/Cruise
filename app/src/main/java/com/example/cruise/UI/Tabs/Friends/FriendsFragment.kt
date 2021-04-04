@@ -1,4 +1,4 @@
-package com.example .cruise.ui.Tabs
+package com.example.cruise.UI.Tabs.Friends
 
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.cruise.Data.RecyclerAdapter
+import com.example.cruise.Adapter.FriendFragment.FriendRequestSendListAdapter
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -57,7 +57,7 @@ class FriendsFragment : Fragment() {
 
         val context: Context = activity as FragmentActivity
 
-          fm = (context as FragmentActivity).supportFragmentManager
+              fm = (context as FragmentActivity).supportFragmentManager
 
         user_info = User_Info()
         user_info.get(activity!!)
@@ -66,7 +66,7 @@ class FriendsFragment : Fragment() {
         floatbutton = v.findViewById(R.id.friendfloat)
         mListView = v.findViewById(R.id.listView)
 //        val exampleList = generateDummyList(10)
-        mListView.adapter = RecyclerAdapter(memberData!!, fm,0)
+        mListView.adapter = FriendRequestSendListAdapter(memberData!!, fm,0)
         mListView.layoutManager = LinearLayoutManager(context)
         mListView.setHasFixedSize(true)
         loadfrienddata()
@@ -95,7 +95,7 @@ class FriendsFragment : Fragment() {
 
     private fun loadfrienddata() {
         if(friendData!=null) {
-            mListView.adapter = RecyclerAdapter(friendData!!, fm,1)
+            mListView.adapter = FriendRequestSendListAdapter(friendData!!, fm,1)
 
             myRef = database.getReference("Private/friend_list/"+ (currentUser?.uid ?: "null"))
             if (friendData!!.size == 0)
@@ -126,7 +126,7 @@ class FriendsFragment : Fragment() {
     }
     private fun loadmemberdata() {
         if(memberData!=null) {
-            mListView.adapter = RecyclerAdapter(memberData!!, fm,0)
+            mListView.adapter = FriendRequestSendListAdapter(memberData!!, fm,0)
 
             myRef = database.getReference("Public/member_list/")
             if (memberData!!.size == 0)

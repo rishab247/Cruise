@@ -1,14 +1,15 @@
-package com.example.cruise.Data
+package com.example.cruise.Adapter.FriendFragment
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 
-class FriendListAdapter(private val data: ArrayList<FriendsData>) : RecyclerView.Adapter<FriendListAdapter.FriendsViewHolder>(){
+class FriendRequestReceiveListAdapter(private val data: ArrayList<User_Info>, fm: FragmentManager) : RecyclerView.Adapter<FriendRequestReceiveListAdapter.FriendsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -22,9 +23,11 @@ class FriendListAdapter(private val data: ArrayList<FriendsData>) : RecyclerView
 
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
-//
-//        holder.textView1.text = currentItem.name
-//        holder.textView2.text = currentItem.id
+
+        holder.textView1.text = currentItem.Name
+        holder.textView2.text = currentItem.Uid
+
+
 
     }
 

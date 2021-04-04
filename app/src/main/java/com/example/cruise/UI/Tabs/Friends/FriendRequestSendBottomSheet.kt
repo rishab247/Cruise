@@ -1,4 +1,4 @@
-package com.example.cruise.ui
+package com.example.cruise.UI.Tabs.Friends
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,8 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 
-lateinit var receiver_data: User_Info
-lateinit var sender_data: User_Info
 
 
 class BottomSheetFragment : BottomSheetDialogFragment() {
@@ -22,6 +20,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
     lateinit var uidText: TextView
     lateinit var statusText: TextView
     lateinit var requestbtn: Button
+    lateinit var receiver_data: User_Info
+    lateinit var sender_data: User_Info
 
     lateinit var mAuth: FirebaseAuth
     lateinit var database: FirebaseDatabase

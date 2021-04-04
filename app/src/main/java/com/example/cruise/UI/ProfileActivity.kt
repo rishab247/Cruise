@@ -1,4 +1,4 @@
-package com.example.cruise.ui
+package com.example.cruise.UI
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
-import com.example.cruise.ui.Tabs.MainPage
+import com.example.cruise.UI.Tabs.MainPage
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

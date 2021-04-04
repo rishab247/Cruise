@@ -1,12 +1,8 @@
-package com.example.cruise.ui.Tabs
+package com.example.cruise.UI.Tabs
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ImageView
-import android.widget.ListView
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,10 +10,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
+import com.example.cruise.UI.Tabs.Friends.FriendRequestReceiveBottomSheet
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
-import com.example.cruise.ui.ProfileActivity
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.cruise.UI.ProfileActivity
+import com.example.cruise.UI.Tabs.Friends.FriendsFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -27,6 +24,7 @@ class MainPage : AppCompatActivity() {
     private lateinit var logoutbtn: ImageView
     private lateinit var auth: FirebaseAuth
     private lateinit var currentuser: FirebaseUser
+    lateinit var  fm: FragmentManager
 
     //    lateinit var user_info: User_Info
     lateinit var database: FirebaseDatabase
@@ -48,6 +46,7 @@ class MainPage : AppCompatActivity() {
 //                finish()
 //            }
 //        }
+        fm =  supportFragmentManager
 
 
         val mGotoProfile: ImageView = findViewById(R.id.GotoProfile)
@@ -62,23 +61,31 @@ class MainPage : AppCompatActivity() {
         val mNotification: LottieAnimationView = findViewById(R.id.lottieAnimationView2);
         mNotification.setOnClickListener {
 
-            val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-            val bottomSheetView: View = LayoutInflater.from(applicationContext).inflate(R.layout.friend_request, findViewById(R.id.bottomSheet1))
-
-            bottomSheetDialog.setContentView(bottomSheetView)
-            bottomSheetDialog.setCanceledOnTouchOutside(true)
-
-            val listView: ListView = bottomSheetView.findViewById(R.id.ListView)
-
-            val names = arrayOf("First", "second", "third", "Fourth", "Five", "Six")
-
-            val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, names)
-
-            listView.adapter = arrayAdapter
+            val bottomsheet = FriendRequestReceiveBottomSheet()
+            bottomsheet.show(
+                    fm,
+                    "BottomSheetDialog"
+            )
 
 
 
-            bottomSheetDialog.show()
+//            val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+//            val bottomSheetView: View = LayoutInflater.from(applicationContext).inflate(R.layout.friend_request, findViewById(R.id.bottomSheet1))
+//
+//            bottomSheetDialog.setContentView(bottomSheetView)
+//            bottomSheetDialog.setCanceledOnTouchOutside(true)
+//
+//            val listView: ListView = bottomSheetView.findViewById(R.id.requestListView)
+//
+//            val names = arrayOf("First", "second", "third", "Fourth", "Five", "Six")
+//
+//            val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, names)
+//
+//            listView.adapter = arrayAdapter
+//
+//
+//
+//            bottomSheetDialog.show()
 
 
             //bottomsheetFragment.show(supportFragmentManager, "BottomSheetDialog")

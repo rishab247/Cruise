@@ -1,4 +1,4 @@
-package com.example.cruise.Data
+package com.example.cruise.Adapter.FriendFragment
 
 import android.os.Bundle
 import android.util.Log
@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cruise.Data.User_Info
 import com.example.cruise.R
-import com.example.cruise.ui.BottomSheetFragment
+import com.example.cruise.UI.Tabs.Friends.BottomSheetFragment
 
 
-class RecyclerAdapter(private val data: List<User_Info>, val fm: FragmentManager, val friendflag: Int) : RecyclerView.Adapter<RecyclerAdapter.FriendsViewHolder>() {
+class FriendRequestSendListAdapter(private val data: List<User_Info>, val fm: FragmentManager, val friendflag: Int) : RecyclerView.Adapter<FriendRequestSendListAdapter.FriendsViewHolder>() {
     private var isBottomSheetShowing = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
