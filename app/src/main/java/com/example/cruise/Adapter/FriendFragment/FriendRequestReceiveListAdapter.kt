@@ -1,8 +1,10 @@
 package com.example.cruise.Adapter.FriendFragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +26,17 @@ class FriendRequestReceiveListAdapter(private val data: ArrayList<User_Info>, fm
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
 
-        holder.textView1.text = currentItem.Name
-        holder.textView2.text = currentItem.Uid
+        holder.nameText.text = currentItem.Name
+        holder.uidText.text = currentItem.Uid
+
+        holder.requestaccept.setOnClickListener({
+            Log.e("TAG", "onBindViewHolder: "+currentItem.Uid )
+        })
 
 
+        holder.requestrejected.setOnClickListener({
+            Log.e("TAG", "onBindViewHolder: reject"+currentItem.Uid )
+        })
 
     }
 
@@ -37,8 +46,10 @@ class FriendRequestReceiveListAdapter(private val data: ArrayList<User_Info>, fm
 
 
     class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView1: TextView = itemView.findViewById(R.id.textView6)
-        val textView2: TextView = itemView.findViewById(R.id.textView7)
+        val nameText: TextView = itemView.findViewById(R.id.textView6)
+        val uidText: TextView = itemView.findViewById(R.id.textView7)
+          var requestaccept: Button = itemView.findViewById(R.id.requestaccept)
+          var requestrejected: Button=itemView.findViewById(R.id.requestrejected)
     }
 
 

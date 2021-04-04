@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,10 @@ class FriendRequestReceiveBottomSheet : BottomSheetDialogFragment() {
      lateinit var mAuth: FirebaseAuth
     lateinit var database: FirebaseDatabase
     lateinit var friensrequestlist: RecyclerView
+
+    lateinit var requestaccept: Button
+    lateinit var requestrejected: Button
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val v: View = inflater.inflate(R.layout.friendrequest_receive, container, false)
 
