@@ -1,20 +1,20 @@
 package com.example.cruise.UI
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cruise.Adapter.FriendFragment.FriendRequestReceiveListAdapter
+import com.example.cruise.CellClickListener
 import com.example.cruise.Data.FriendsData
-import com.example.cruise.Data.User_Info
 import com.example.cruise.R
+import com.example.cruise.UI.Tabs.ChatFragment
 
-class ChatListAdapter(private val data: ArrayList<FriendsData>, fm: FragmentManager) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
+class ChatListAdapter(context: Context, private val data: ArrayList<FriendsData>, private val cellClickListener: CellClickListener) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -34,12 +34,8 @@ class ChatListAdapter(private val data: ArrayList<FriendsData>, fm: FragmentMana
         holder.nameText.text = currentItem.userName
         holder.uidText.text = currentItem.lastMessage
 
-        holder.nameText.setOnClickListener{
-            Log.e("Clicked", "Clicked")
-        }
-
-        holder.uidText.setOnClickListener{
-            Log.e("Clicked", "Clicked")
+        holder.itemView.setOnClickListener {
+            cellClickListener.onCellClickListener()
         }
 
 
