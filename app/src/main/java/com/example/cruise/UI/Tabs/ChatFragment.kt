@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cruise.CellClickListener
 import com.example.cruise.Data.FriendsData
 import com.example.cruise.R
-import com.example.cruise.UI.ChatListAdapter
+import com.example.cruise.Adapter.ChatFragment.ChatListAdapter
 import com.example.cruise.ChattingActivity as ChattingActivity1
 
 class ChatFragment : Fragment(), CellClickListener {

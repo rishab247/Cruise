@@ -1,4 +1,4 @@
-package com.example.cruise.UI.Tabs.Friends
+        package com.example.cruise.UI.Tabs.Friends
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -65,7 +65,7 @@ class FriendRequestReceiveBottomSheet : BottomSheetDialogFragment() {
                          }
                      }
 
-                     friensrequestlist.adapter = FriendRequestReceiveListAdapter(requestData!!, fm )
+                     friensrequestlist.adapter = FriendRequestReceiveListAdapter(requestData!!, user_info )
                      friensrequestlist.layoutManager = LinearLayoutManager(context)
                      friensrequestlist.setHasFixedSize(true)
                  }
