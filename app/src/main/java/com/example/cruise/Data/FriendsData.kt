@@ -1,8 +1,8 @@
 package com.example.cruise.Data
 
-data class FriendsData(val name: String, val id: String) {
+data class FriendsData(val name: String, val message: String) {
     var userName: String = name
-    var userId: String = id
+    var lastMessage: String = message
 }
 
 //helper text
