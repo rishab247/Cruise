@@ -27,7 +27,7 @@ class FriendRequestSendListAdapter(private val data: List<User_Info>, val fm: Fr
 
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
-
+        isBottomSheetShowing = false
         holder.textView1.text = currentItem.Name
         holder.textView2.text = currentItem.Uid
 
@@ -38,9 +38,11 @@ class FriendRequestSendListAdapter(private val data: List<User_Info>, val fm: Fr
                 val bundle = Bundle()
                 bundle.putParcelable("receiver_data", currentItem)
                 bottomsheet.arguments = bundle
+                Log.e("Clicked", currentItem.Uid)
+
+
                 // implementing the functionality of recycler view
                 holder.itemView.setOnClickListener {
-                    Log.e("Clicked", holder.itemView.toString())
                     bottomsheet.show(
                             fm,
                             "BottomSheetDialog"

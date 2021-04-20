@@ -379,6 +379,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
                 android:visibility="gone"/>
 
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

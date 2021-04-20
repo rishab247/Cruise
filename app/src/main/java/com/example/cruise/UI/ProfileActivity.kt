@@ -38,6 +38,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var  nameInput: TextInputLayout
     lateinit var  mNameInput: EditText
     lateinit var  mSaveButton: Button
+    lateinit var  mLogoutButton: Button
     lateinit var  mStatusInput: EditText
     lateinit var  mEmailInput: EditText
     lateinit var  mEditProfile: ImageView
@@ -56,6 +57,9 @@ class ProfileActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
          currentUser = mAuth.currentUser
+        Toast.makeText(
+                baseContext, mAuth.uid+"  ",
+                Toast.LENGTH_SHORT).show()
 
         registerMode = intent.getBooleanExtra("Register", false)
         mUidInput = findViewById(R.id.first)
@@ -66,6 +70,7 @@ class ProfileActivity : AppCompatActivity() {
         mStatusInput = findViewById(R.id.status_id)
         mEditProfile = findViewById(R.id.editProfile)
         mEmailInput = findViewById(R.id.third)
+        mLogoutButton = findViewById(R.id.logout)
 
         user_info = User_Info()
         user_info.get(this)
@@ -104,7 +109,12 @@ class ProfileActivity : AppCompatActivity() {
             mEditProfile.callOnClick()
             mEditProfile.isClickable = false
         }
-
+        mLogoutButton.setOnClickListener{
+            mAuth.signOut()
+            Toast.makeText(
+                    baseContext, "Logout.",
+                    Toast.LENGTH_SHORT).show()
+        }
         mSaveButton.setOnClickListener {
             if (mSaveButton.isVisible) {
 

@@ -94,8 +94,16 @@ class LoginActivity : AppCompatActivity() {
                                         }
                             } catch (wrongPassword: FirebaseAuthInvalidCredentialsException) {
                                 Log.d(TAG, "onComplete: wrong_password")
+                                Toast.makeText(
+                                        baseContext, " wrong_password",
+                                        Toast.LENGTH_SHORT
+                                ).show()
                             } catch (e: Exception) {
                                 Log.d(TAG, "onComplete: " + e.message)
+                                Toast.makeText(
+                                        baseContext, "onComplete: " + e.message,
+                                        Toast.LENGTH_SHORT
+                                ).show()
                             }
                         } else {
                             val user = auth.currentUser
@@ -186,9 +194,14 @@ class LoginActivity : AppCompatActivity() {
                             //stop progress bar
 
                         }
-                         else{
+                         else{                            userInfo.save(this@LoginActivity)
+
                             nextActivity(false)
 
+//                            Toast.makeText(
+//                                    baseContext, "Login.",
+//                                    Toast.LENGTH_SHORT).show()
+                            Log.e(TAG, "onDataChange: login", )
                             //stop progress bar
                         }
                     }
