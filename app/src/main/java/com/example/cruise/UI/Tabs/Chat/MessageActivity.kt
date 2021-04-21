@@ -1,12 +1,15 @@
-package com.example.cruise
+package com.example.cruise.UI.Tabs.Chat
 
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cruise.Adapter.ChatFragment.MessageAdapter
+import com.example.cruise.Data.Messages
+import com.example.cruise.R
 
-class ChattingActivity : AppCompatActivity() {
+class MessageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatting)

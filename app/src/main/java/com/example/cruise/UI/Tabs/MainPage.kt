@@ -14,6 +14,7 @@ import com.example.cruise.UI.Tabs.Friends.FriendRequestReceiveBottomSheet
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.example.cruise.UI.ProfileActivity
+import com.example.cruise.UI.Tabs.Chat.ChatFragment
 import com.example.cruise.UI.Tabs.Friends.FriendsFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth

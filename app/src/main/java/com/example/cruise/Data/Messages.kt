@@ -1,4 +1,4 @@
-package com.example.cruise
+package com.example.cruise.Data
 
 public class Messages(val message: String, val type: String, val time: Long, val seen: Boolean) {
 

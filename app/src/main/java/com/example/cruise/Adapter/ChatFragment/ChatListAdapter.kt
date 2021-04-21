@@ -1,16 +1,18 @@
 package com.example.cruise.Adapter.ChatFragment
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cruise.CellClickListener
 import com.example.cruise.Data.FriendsData
 import com.example.cruise.R
+import com.example.cruise.UI.Tabs.Chat.MessageActivity
 
-class ChatListAdapter(context: Context, private val data: ArrayList<FriendsData>, private val cellClickListener: CellClickListener) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
+class ChatListAdapter(    var context :   Context, private val data: ArrayList<FriendsData>) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
@@ -18,8 +20,8 @@ class ChatListAdapter(context: Context, private val data: ArrayList<FriendsData>
                 R.layout.chat_list_row,
                 parent,
                 false
-        )
 
+        )
 
 
         return FriendsViewHolder(itemView)
@@ -32,8 +34,11 @@ class ChatListAdapter(context: Context, private val data: ArrayList<FriendsData>
         holder.uidText.text = currentItem.lastMessage
 
         holder.itemView.setOnClickListener {
-            cellClickListener.onCellClickListener()
-        }
+
+             Toast.makeText(context,"Cell clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, MessageActivity::class.java)
+            context.startActivity(intent)
+         }
 
 
 

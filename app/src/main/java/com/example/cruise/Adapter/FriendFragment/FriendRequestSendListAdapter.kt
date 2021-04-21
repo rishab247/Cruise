@@ -1,19 +1,23 @@
 package com.example.cruise.Adapter.FriendFragment
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
+import com.example.cruise.UI.Tabs.Chat.MessageActivity
 import com.example.cruise.UI.Tabs.Friends.BottomSheetFragment
 
 
-class FriendRequestSendListAdapter(private val data: List<User_Info>, val fm: FragmentManager, val friendflag: Int) : RecyclerView.Adapter<FriendRequestSendListAdapter.FriendsViewHolder>() {
+class FriendRequestSendListAdapter(var context:Context,private val data: List<User_Info>, val fm: FragmentManager, val friendflag: Int) : RecyclerView.Adapter<FriendRequestSendListAdapter.FriendsViewHolder>() {
     private var isBottomSheetShowing = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
@@ -53,6 +57,15 @@ class FriendRequestSendListAdapter(private val data: List<User_Info>, val fm: Fr
                 isBottomSheetShowing=false
             }
         }
+        else{
+            holder.itemView.setOnClickListener {
+
+                Toast.makeText(context,"Cell clicked", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, MessageActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
+
 
     }
 
