@@ -1,5 +1,6 @@
 package com.example.cruise.Adapter.FriendFragment
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -31,6 +32,7 @@ class FriendRequestSendListAdapter(var context:Context,private val data: List<Us
 
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
+//        currentItem.print()
         isBottomSheetShowing = false
         holder.textView1.text = currentItem.Name
         holder.textView2.text = currentItem.Uid
@@ -59,9 +61,10 @@ class FriendRequestSendListAdapter(var context:Context,private val data: List<Us
         }
         else{
             holder.itemView.setOnClickListener {
-
-                Toast.makeText(context,"Cell clicked", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "onBindViewHolder: "+"Cell clicked" +currentItem.Name)
+//                Toast.makeText(context,, Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, MessageActivity::class.java)
+                intent.putExtra("sender",currentItem);
                 context.startActivity(intent)
             }
         }

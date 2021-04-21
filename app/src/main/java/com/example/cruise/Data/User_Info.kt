@@ -27,6 +27,7 @@ class User_Info() : Parcelable {
         status = parcel.readString().toString()
         Token = parcel.readString().toString()
         RequestToken = parcel.readString().toString()
+        msgToken = parcel.readString().toString()
     }
 
 
@@ -47,6 +48,18 @@ class User_Info() : Parcelable {
 
 
     }
+    fun print(){
+        Log.e("TAG", "onCreate: "+Name )
+        Log.e("TAG", "onCreate: "+Uid )
+        Log.e("TAG", "onCreate: "+ Email )
+        Log.e("TAG", "onCreate: "+ Dplocation)
+        Log.e("TAG", "onCreate: "+status )
+        Log.e("TAG", "onCreate: "+ Token )
+        Log.e("TAG", "onCreate: "+ msgToken )
+
+    }
+
+
 
     fun get(b: Context) {
         pref = b.getSharedPreferences("MyPREFERENCES1", Context.MODE_PRIVATE);
@@ -70,6 +83,7 @@ class User_Info() : Parcelable {
         parcel.writeString(status)
         parcel.writeString(Token)
         parcel.writeString(RequestToken)
+        parcel.writeString(msgToken)
     }
 
     override fun describeContents(): Int {

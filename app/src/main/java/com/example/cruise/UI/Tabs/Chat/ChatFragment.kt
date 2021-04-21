@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cruise.Data.FriendsData
 import com.example.cruise.R
 import com.example.cruise.Adapter.ChatFragment.ChatListAdapter
+import com.example.cruise.Data.User_Info
 
 class ChatFragment : Fragment() {
     lateinit var  fm: FragmentManager
@@ -27,9 +28,12 @@ class ChatFragment : Fragment() {
 
         val listView: RecyclerView = v.findViewById(R.id.chat_list)
 
-        val mList: ArrayList<FriendsData> = ArrayList()
-        mList.add(FriendsData("Tushar Tambi", "Hi how are your"))
-        mList.add(FriendsData("Rishab Aggarwal", "Hi I am fine"))
+        val mList: ArrayList<User_Info> = ArrayList()
+        var user_Info = User_Info()
+        user_Info.Name   = "Rishab"
+        mList.add(user_Info)
+        user_Info.Name  = "Tushar"
+        mList.add(user_Info)
 
         listView.adapter = ChatListAdapter(context, mList)
         listView.layoutManager = LinearLayoutManager(context)

@@ -1,15 +1,13 @@
 package com.example.cruise.Data
 
-public class Messages(val message: String, val type: String, val time: Long, val seen: Boolean) {
+public class Messages( ) {
 
-    var mMessage: String = message
-    get() = field
+    var mMessage: String =""
 
-    val mType: String = type
-    val mSeen: Boolean = seen
-    val mTime: Long = time
-
-
+    var mType: String   =""
+    var mLocation: String =" "
+    var mTime: Long = 0L
+    var  msendername = ""
 
 
 }
