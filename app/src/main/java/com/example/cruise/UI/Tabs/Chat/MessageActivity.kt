@@ -2,6 +2,7 @@ package com.example.cruise.UI.Tabs.Chat
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Message
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
@@ -11,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cruise.Adapter.ChatFragment.MessageAdapter
 import com.example.cruise.Data.Messages
+import com.example.cruise.Data.Messageschat
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MessageActivity : AppCompatActivity() {
 
@@ -28,6 +31,7 @@ class MessageActivity : AppCompatActivity() {
     lateinit var senderInfo: User_Info
     lateinit var  mMessageList : ArrayList<Messages>
     lateinit var  context :Context
+     var  mLastSeentime :Long = 0L
 
       var   timeMilli: Long  =0
 
@@ -53,11 +57,7 @@ class MessageActivity : AppCompatActivity() {
         senderInfo = (intent.getParcelableExtra("sender") as? User_Info)!!
 
         //set time
-        val date = Date()
-          timeMilli    = date.getTime()
-
-        var myRef: DatabaseReference = database.getReference("Public/Message/" + senderInfo.msgToken+"/"+userInfo.Name )
-            myRef.setValue(timeMilli)
+        updatetime()
 
 
 
@@ -65,38 +65,46 @@ class MessageActivity : AppCompatActivity() {
 
         //getdata
 
-          myRef = database.getReference("Public/Message/" + senderInfo.msgToken+"/msg"  )
-        myRef.addChildEventListener(object  : ChildEventListener {
+          var myRef = database.getReference("Public/Message/" + senderInfo.msgToken  )
+        myRef.addValueEventListener(object  : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+//                TODO("Not yet implemented")
             }
 
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                mMessageList = ArrayList()
 
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
 
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.e("TAG", "onChildAdded: "+snapshot.value.toString()   )
 
-                mMessageList.add(snapshot.getValue(Messages::class.java)!!)
+                var msg : Message = Message()
+                for (snap in snapshot.children) {
+                    var flag :Boolean = false
+                    for (sna in snap.children) {
+                        flag = true
 
-                val mAdapter = MessageAdapter(mMessageList,userInfo,senderInfo)
+                        Log.e("TAG", "onChildAdded:ssss " + (sna .getValue(Messages::class.java)!!).mMessage+ "  " + sna.value.toString())
+
+                mMessageList.add(sna.getValue(Messages::class.java)!!)
+
+
+                    }
+                    if(flag==false) {
+                        if( !snap.key.toString().equals(userInfo.Name)){
+
+                            mLastSeentime = snap.value.toString().toLong()
+                        }
+                        Log.e("TAG", "onChildAdded:ssss " + snap.key.toString() + "  " + snap.value.toString()+" "+mLastSeentime.toString())
+                    }
+                }
+                val mAdapter = MessageAdapter(mMessageList,userInfo,senderInfo,mLastSeentime)
 
                 val mLinearLayout = LinearLayoutManager(context)
                 mChatList.setHasFixedSize(true)
                 mChatList.layoutManager = mLinearLayout
 
                 mChatList.adapter = mAdapter
-
-
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
+                if(mMessageList.size>=1)
+                updatechatlist(senderInfo,mMessageList[mMessageList.size-1].mMessage)
             }
 
         })
@@ -108,7 +116,7 @@ class MessageActivity : AppCompatActivity() {
 
 
 
-        val mAdapter = MessageAdapter(mMessageList, userInfo, senderInfo)
+        val mAdapter = MessageAdapter(mMessageList, userInfo, senderInfo, mLastSeentime)
 
         val mLinearLayout = LinearLayoutManager(this)
         mChatList.setHasFixedSize(true)
@@ -121,11 +129,38 @@ class MessageActivity : AppCompatActivity() {
 
     }
 
+    private fun updatechatlist(senderInfo: User_Info, mMessage: String) {
+        val date = Date()
+        timeMilli    = date.getTime()
+
+            var myRef: DatabaseReference = database.getReference("Private/chatlist/" + currentuser.uid +"/"+senderInfo.msgToken)
+        var mRecentMessages: Messageschat = Messageschat()
+
+
+
+        mRecentMessages.mLastMessage = mMessage
+        mRecentMessages.mTime = timeMilli
+        mRecentMessages.mMessages  = senderInfo
+        myRef.setValue(mRecentMessages)
+    }
+
+    private fun updatetime() {
+        val date = Date()
+        timeMilli    = date.getTime()
+
+        var myRef: DatabaseReference = database.getReference("Public/Message/" + senderInfo.msgToken+"/"+userInfo.Name )
+        myRef.setValue(timeMilli)
+
+    }
+
     private fun sendmessage() {
         mSendButton.setOnClickListener {
             val date = Date()
+            updatetime()
+
             timeMilli    = date.getTime()
-            if(mMessageType.text.equals("")){
+            if(mMessageType.text.toString().equals("")||mMessageType.text.toString().equals(" ")){
+                Log.e("TAG", "sendmessage: error" )
                 Toast.makeText( context, "Invalid message", Toast.LENGTH_SHORT).show()
             }
             else{
@@ -134,7 +169,7 @@ class MessageActivity : AppCompatActivity() {
                 messages.mType = "1"
 
                 //TODO: time mask  = 3000000000000
-                messages.mTime = 3000000000000-timeMilli
+                messages.mTime = timeMilli
                 messages.msendername = userInfo.Name
                 mMessageType.setText("")
                 val myRef: DatabaseReference = database.getReference("Public/Message/" + senderInfo.msgToken+"/msg"  )
@@ -145,5 +180,10 @@ class MessageActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onBackPressed() {
+        updatetime()
+        super.onBackPressed()
     }
 }

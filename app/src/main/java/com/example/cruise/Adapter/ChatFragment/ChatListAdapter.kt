@@ -9,11 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cruise.Data.FriendsData
+import com.example.cruise.Data.Messageschat
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.example.cruise.UI.Tabs.Chat.MessageActivity
 
-class ChatListAdapter(    var context :   Context, private val data: ArrayList<User_Info>) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
+class ChatListAdapter(    var context :   Context, private val data: ArrayList<Messageschat>) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
@@ -31,14 +32,14 @@ class ChatListAdapter(    var context :   Context, private val data: ArrayList<U
     override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {
         val currentItem = data[position]
 
-        holder.nameText.text = currentItem.Name
-        holder.uidText.text = currentItem.Name
+        holder.nameText.text = currentItem.mMessages?.Name ?: ""
+        holder.uidText.text = currentItem.mLastMessage
 
         holder.itemView.setOnClickListener {
 
              Toast.makeText(context,"Cell clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(context, MessageActivity::class.java)
-            intent.putExtra("sender",currentItem);
+            intent.putExtra("sender",currentItem.mMessages);
 
             context.startActivity(intent)
          }

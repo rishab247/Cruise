@@ -11,7 +11,7 @@ import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MessageAdapter(private val messageList: List<Messages>, userInfo: User_Info, senderInfo: User_Info) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
+class MessageAdapter(private val messageList: List<Messages>, userInfo: User_Info, senderInfo: User_Info, mLastSeentime: Long) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     private val mMessageList : List<Messages> = messageList
 
