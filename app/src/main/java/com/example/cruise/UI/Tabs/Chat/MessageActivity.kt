@@ -1,6 +1,8 @@
 package com.example.cruise.UI.Tabs.Chat
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Message
 import android.util.Log
@@ -18,8 +20,10 @@ import com.example.cruise.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import net.alhazmy13.mediapicker.Image.ImagePicker
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class MessageActivity : AppCompatActivity() {
 
@@ -116,14 +120,17 @@ class MessageActivity : AppCompatActivity() {
 
 
 
-        val mAdapter = MessageAdapter(mMessageList, userInfo, senderInfo, mLastSeentime)
-
-        val mLinearLayout = LinearLayoutManager(this)
-        mChatList.setHasFixedSize(true)
-        mChatList.layoutManager = mLinearLayout
-
-        mChatList.adapter = mAdapter
-
+        mAddButton.setOnClickListener {
+            Log.e("TAG", "onCreate: " )
+            ImagePicker.Builder(this@MessageActivity)
+                    .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
+                    .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+                    .directory(ImagePicker.Directory.DEFAULT)
+                    .extension(ImagePicker.Extension.PNG)
+                    .scale(600, 600)
+                    .allowMultipleImages(false)
+                    .enableDebuggingMode(true)
+                    .build()        }
 
 
 
@@ -181,7 +188,12 @@ class MessageActivity : AppCompatActivity() {
 
 
     }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+             //Your Code
+        }
+    }
     override fun onBackPressed() {
         updatetime()
         super.onBackPressed()

@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.7.0'
     implementation 'com.google.firebase:firebase-database-ktx:19.7.0'
     testImplementation 'junit:junit:4.+'
+    implementation 'net.alhazmy13.MediaPicker:libary:2.4.4'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
