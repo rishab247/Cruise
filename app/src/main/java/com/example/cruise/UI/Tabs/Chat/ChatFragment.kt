@@ -22,8 +22,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
+
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,7 +30,7 @@ class ChatFragment : Fragment() {
     lateinit var fm: FragmentManager
 
 
-    private val messageAdapter = GroupAdapter<GroupieViewHolder>()
+//    private val messageAdapter = GroupAdapter<GroupieViewHolder>()
 
 
     private lateinit var auth: FirebaseAuth

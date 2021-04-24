@@ -201,7 +201,7 @@ class LoginActivity : AppCompatActivity() {
 //                            Toast.makeText(
 //                                    baseContext, "Login.",
 //                                    Toast.LENGTH_SHORT).show()
-                            Log.e(TAG, "onDataChange: login", )
+                            Log.e(TAG, "onDataChange: login"  )
                             //stop progress bar
                         }
                     }

@@ -186,7 +186,7 @@ class MessageActivity : AppCompatActivity() {
 
                 //TODO: time mask  = 3000000000000
                 messages.mTime = timeMilli
-                messages.msendername = userInfo.Name
+                messages.mEmail = userInfo.Email
                 mMessageType.setText("")
                 val myRef: DatabaseReference =
                     database.getReference("Public/Message/" + senderInfo.msgToken + "/msg")

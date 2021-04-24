@@ -7,7 +7,7 @@ public class Messages( ) {
     var mType: String   =""
     var mLocation: String =" "
     var mTime: Long = 0L
-    var  msendername = ""
+    var  mEmail = ""
 
 
 }
