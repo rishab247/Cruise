@@ -109,10 +109,13 @@ class MessageActivity : AppCompatActivity() {
                 val mAdapter = MessageAdapter(mMessageList, userInfo, senderInfo, mLastSeentime)
 
                 val mLinearLayout = LinearLayoutManager(context)
+               // mLinearLayout.scrollToPosition(mMessageList.size + 1)
                 mChatList.setHasFixedSize(true)
                 mChatList.layoutManager = mLinearLayout
 
+
                 mChatList.adapter = mAdapter
+                mChatList.scrollToPosition( mAdapter.itemCount - 1)
                 if (mMessageList.size >= 1)
                     updatechatlist(senderInfo, mMessageList[mMessageList.size - 1].mMessage)
             }

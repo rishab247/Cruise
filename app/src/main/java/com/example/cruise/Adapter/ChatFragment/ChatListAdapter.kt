@@ -37,7 +37,7 @@ class ChatListAdapter(var context :   Context, private val data: ArrayList<Messa
 
         holder.itemView.setOnClickListener {
 
-             Toast.makeText(context,"Cell clicked", Toast.LENGTH_SHORT).show()
+             //Toast.makeText(context,"Cell clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(context, MessageActivity::class.java)
             intent.putExtra("sender",currentItem.mMessages);
 
