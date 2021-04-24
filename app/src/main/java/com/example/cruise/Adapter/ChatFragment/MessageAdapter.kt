@@ -19,8 +19,8 @@ class MessageAdapter(private val messageList: List<Messages>,var userInfo: User_
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val message: Messages = mMessageList[viewType]
         val v: View
-
-        if(message.mEmail==userInfo.Email)
+        Log.e("asda", "onCreateViewHolder: "+message.mEmail )
+        if(message.mEmail.equals(userInfo.Email))
             v  = LayoutInflater.from(parent.context).inflate(R.layout.item_message_send, parent, false)
         else
             v  = LayoutInflater.from(parent.context).inflate(R.layout.item_message_receive, parent, false)
