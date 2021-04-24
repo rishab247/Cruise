@@ -22,11 +22,16 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import java.util.*
 import kotlin.collections.ArrayList
 
 class ChatFragment : Fragment() {
-    lateinit var  fm: FragmentManager
+    lateinit var fm: FragmentManager
+
+
+    private val messageAdapter = GroupAdapter<GroupieViewHolder>()
 
 
     private lateinit var auth: FirebaseAuth
@@ -48,10 +53,9 @@ class ChatFragment : Fragment() {
         mChatList = ArrayList()
 
 
+        var myRef = database.getReference("Private/chatlist/" + auth.uid)
 
-        var myRef = database.getReference("Private/chatlist/" + auth.uid   )
-
-        myRef.addValueEventListener(object : ValueEventListener{
+        myRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 //                TODO("Not yet implemented")
             }
@@ -60,12 +64,12 @@ class ChatFragment : Fragment() {
 //                TODO("Not yet implemented")
                 mChatList = ArrayList()
 //                Log.e("TAG", "onDataChange: "+snapshot.getValue(String::class.java) )
-                for (snap in snapshot.children){
+                for (snap in snapshot.children) {
                     mChatList.add(snap.getValue(Messageschat::class.java)!!)
 
                 }
 
-                listView.adapter = ChatListAdapter(context,mChatList)
+                listView.adapter = ChatListAdapter(context, mChatList)
                 listView.layoutManager = LinearLayoutManager(context)
                 listView.setHasFixedSize(true)
 
@@ -81,8 +85,6 @@ class ChatFragment : Fragment() {
 
         return v
     }
-
-
 
 
 }

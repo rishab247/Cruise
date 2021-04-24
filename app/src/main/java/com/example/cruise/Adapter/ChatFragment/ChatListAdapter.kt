@@ -14,7 +14,7 @@ import com.example.cruise.Data.User_Info
 import com.example.cruise.R
 import com.example.cruise.UI.Tabs.Chat.MessageActivity
 
-class ChatListAdapter(    var context :   Context, private val data: ArrayList<Messageschat>) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
+class ChatListAdapter(var context :   Context, private val data: ArrayList<Messageschat>) : RecyclerView.Adapter<ChatListAdapter.FriendsViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {

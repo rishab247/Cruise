@@ -4,9 +4,17 @@ plugins {
     id 'com.google.gms.google-services'
  }
 
+
+
+
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.example.cruise"
@@ -33,6 +41,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -53,5 +62,8 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "com.xwray:groupie:2.7.0"
+    implementation "com.xwray:groupie-databinding:2.7.0"
+    implementation "com.xwray:groupie-kotlin-android-extensions:2.7.0"
 
 }

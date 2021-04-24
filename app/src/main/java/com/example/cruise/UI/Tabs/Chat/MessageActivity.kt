@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Message
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -27,17 +28,17 @@ import kotlin.collections.ArrayList
 
 class MessageActivity : AppCompatActivity() {
 
-   lateinit  var mSendButton : ImageView
-    lateinit  var mAddButton: ImageView
-    lateinit  var mMessageType : EditText
-    lateinit  var mChatList: RecyclerView
+    lateinit var mSendButton: Button
+    lateinit var mAddButton: ImageView
+    lateinit var mMessageType: EditText
+    lateinit var mChatList: RecyclerView
     lateinit var userInfo: User_Info
     lateinit var senderInfo: User_Info
-    lateinit var  mMessageList : ArrayList<Messages>
-    lateinit var  context :Context
-     var  mLastSeentime :Long = 0L
+    lateinit var mMessageList: ArrayList<Messages>
+    lateinit var context: Context
+    var mLastSeentime: Long = 0L
 
-      var   timeMilli: Long  =0
+    var timeMilli: Long = 0
 
     private lateinit var auth: FirebaseAuth
     private lateinit var currentuser: FirebaseUser
@@ -46,18 +47,18 @@ class MessageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatting)
-        mMessageList  = ArrayList()
-    context  = this
+        mMessageList = ArrayList()
+        context = this
         auth = FirebaseAuth.getInstance()
         currentuser = auth.currentUser!!
         database = FirebaseDatabase.getInstance()
 
         mSendButton = findViewById(R.id.send_id)
-          mAddButton = findViewById(R.id.add_id)
-          mMessageType = findViewById(R.id.message_id)
-          mChatList = findViewById(R.id.chat_message)
-          userInfo = User_Info()
-            userInfo.get(this)
+        // mAddButton = findViewById(R.id.add_id)
+        mMessageType = findViewById(R.id.message_id)
+        mChatList = findViewById(R.id.chat_message)
+        userInfo = User_Info()
+        userInfo.get(this)
         senderInfo = (intent.getParcelableExtra("sender") as? User_Info)!!
 
         //set time
@@ -69,8 +70,8 @@ class MessageActivity : AppCompatActivity() {
 
         //getdata
 
-          var myRef = database.getReference("Public/Message/" + senderInfo.msgToken  )
-        myRef.addValueEventListener(object  : ValueEventListener {
+        var myRef = database.getReference("Public/Message/" + senderInfo.msgToken)
+        myRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
 //                TODO("Not yet implemented")
             }
@@ -79,36 +80,41 @@ class MessageActivity : AppCompatActivity() {
                 mMessageList = ArrayList()
 
 
-
-                var msg : Message = Message()
+                var msg: Message = Message()
                 for (snap in snapshot.children) {
-                    var flag :Boolean = false
+                    var flag: Boolean = false
                     for (sna in snap.children) {
                         flag = true
 
-                        Log.e("TAG", "onChildAdded:ssss " + (sna .getValue(Messages::class.java)!!).mMessage+ "  " + sna.value.toString())
+                        Log.e(
+                            "TAG",
+                            "onChildAdded:ssss " + (sna.getValue(Messages::class.java)!!).mMessage + "  " + sna.value.toString()
+                        )
 
-                mMessageList.add(sna.getValue(Messages::class.java)!!)
+                        mMessageList.add(sna.getValue(Messages::class.java)!!)
 
 
                     }
-                    if(flag==false) {
-                        if( !snap.key.toString().equals(userInfo.Name)){
+                    if (flag == false) {
+                        if (!snap.key.toString().equals(userInfo.Name)) {
 
                             mLastSeentime = snap.value.toString().toLong()
                         }
-                        Log.e("TAG", "onChildAdded:ssss " + snap.key.toString() + "  " + snap.value.toString()+" "+mLastSeentime.toString())
+                        Log.e(
+                            "TAG",
+                            "onChildAdded:ssss " + snap.key.toString() + "  " + snap.value.toString() + " " + mLastSeentime.toString()
+                        )
                     }
                 }
-                val mAdapter = MessageAdapter(mMessageList,userInfo,senderInfo,mLastSeentime)
+                val mAdapter = MessageAdapter(mMessageList, userInfo, senderInfo, mLastSeentime)
 
                 val mLinearLayout = LinearLayoutManager(context)
                 mChatList.setHasFixedSize(true)
                 mChatList.layoutManager = mLinearLayout
 
                 mChatList.adapter = mAdapter
-                if(mMessageList.size>=1)
-                updatechatlist(senderInfo,mMessageList[mMessageList.size-1].mMessage)
+                if (mMessageList.size >= 1)
+                    updatechatlist(senderInfo, mMessageList[mMessageList.size - 1].mMessage)
             }
 
         })
@@ -120,42 +126,44 @@ class MessageActivity : AppCompatActivity() {
 
 
 
-        mAddButton.setOnClickListener {
-            Log.e("TAG", "onCreate: " )
-            ImagePicker.Builder(this@MessageActivity)
-                    .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
-                    .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
-                    .directory(ImagePicker.Directory.DEFAULT)
-                    .extension(ImagePicker.Extension.PNG)
-                    .scale(600, 600)
-                    .allowMultipleImages(false)
-                    .enableDebuggingMode(true)
-                    .build()        }
-
+//        mAddButton.setOnClickListener {
+//            Log.e("TAG", "onCreate: ")
+//            ImagePicker.Builder(this@MessageActivity)
+//                .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
+//                .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+//                .directory(ImagePicker.Directory.DEFAULT)
+//                .extension(ImagePicker.Extension.PNG)
+//                .scale(600, 600)
+//                .allowMultipleImages(false)
+//                .enableDebuggingMode(true)
+//                .build()
+//        }
 
 
     }
 
     private fun updatechatlist(senderInfo: User_Info, mMessage: String) {
         val date = Date()
-        timeMilli    = date.getTime()
+        timeMilli = date.getTime()
 
-            var myRef: DatabaseReference = database.getReference("Private/chatlist/" + currentuser.uid +"/"+senderInfo.msgToken)
+        var myRef: DatabaseReference =
+            database.getReference("Private/chatlist/" + currentuser.uid + "/" + senderInfo.msgToken)
         var mRecentMessages: Messageschat = Messageschat()
 
 
 
         mRecentMessages.mLastMessage = mMessage
         mRecentMessages.mTime = timeMilli
-        mRecentMessages.mMessages  = senderInfo
+        mRecentMessages.mMessages = senderInfo
         myRef.setValue(mRecentMessages)
     }
 
     private fun updatetime() {
         val date = Date()
-        timeMilli    = date.getTime()
+        timeMilli = date.getTime()
 
-        var myRef: DatabaseReference = database.getReference("Public/Message/" + senderInfo.msgToken+"/"+userInfo.Name )
+        var myRef: DatabaseReference =
+            database.getReference("Public/Message/" + senderInfo.msgToken + "/" + userInfo.Name)
         myRef.setValue(timeMilli)
 
     }
@@ -165,13 +173,14 @@ class MessageActivity : AppCompatActivity() {
             val date = Date()
             updatetime()
 
-            timeMilli    = date.getTime()
-            if(mMessageType.text.toString().equals("")||mMessageType.text.toString().equals(" ")){
-                Log.e("TAG", "sendmessage: error" )
-                Toast.makeText( context, "Invalid message", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                var messages: Messages  = Messages();
+            timeMilli = date.getTime()
+            if (mMessageType.text.toString().equals("") || mMessageType.text.toString()
+                    .equals(" ")
+            ) {
+                Log.e("TAG", "sendmessage: error")
+                Toast.makeText(context, "Invalid message", Toast.LENGTH_SHORT).show()
+            } else {
+                var messages: Messages = Messages();
                 messages.mMessage = mMessageType.text.toString()
                 messages.mType = "1"
 
@@ -179,21 +188,23 @@ class MessageActivity : AppCompatActivity() {
                 messages.mTime = timeMilli
                 messages.msendername = userInfo.Name
                 mMessageType.setText("")
-                val myRef: DatabaseReference = database.getReference("Public/Message/" + senderInfo.msgToken+"/msg"  )
-                 myRef. push().setValue(messages)
+                val myRef: DatabaseReference =
+                    database.getReference("Public/Message/" + senderInfo.msgToken + "/msg")
+                myRef.push().setValue(messages)
 
             }
         }
 
 
-
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-             //Your Code
+            //Your Code
         }
     }
+
     override fun onBackPressed() {
         updatetime()
         super.onBackPressed()
