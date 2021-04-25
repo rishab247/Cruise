@@ -34,11 +34,11 @@ class FriendRequestSendListAdapter(var context:Context,private val data: List<Us
         val currentItem = data[position]
 //        currentItem.print()
         isBottomSheetShowing = false
-        holder.textView1.text = currentItem.Name
-        holder.textView2.text = currentItem.Uid
+
 
         if(friendflag==0)
-        {
+        {        holder.textView1.text = currentItem.Name
+            holder.textView2.text = currentItem.Uid
             if(!isBottomSheetShowing){
                 val bottomsheet = BottomSheetFragment()
                 val bundle = Bundle()
@@ -60,6 +60,8 @@ class FriendRequestSendListAdapter(var context:Context,private val data: List<Us
             }
         }
         else{
+            holder.textView1.text = currentItem.Name
+            holder.textView2.text = currentItem.status
             holder.itemView.setOnClickListener {
                 Log.e(TAG, "onBindViewHolder: "+"Cell clicked" +currentItem.Name)
 //                Toast.makeText(context,, Toast.LENGTH_SHORT).show()

@@ -37,9 +37,9 @@
             app:lottie_loop="false" />
 
         <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/addmedia"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_add_24px"
             app:layout_constraintBottom_toBottomOf="@+id/message_id"
@@ -60,7 +60,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/send_id"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/addmedia"
             app:layout_constraintTop_toBottomOf="@+id/chat_message" />
 
         <Button

@@ -65,28 +65,28 @@ class FriendRequestReceiveListAdapter(private val data: ArrayList<User_Info>,pri
         myRef = database.getReference("Public/incoming_request/"+ requestuser.RequestToken+"/" +user_info.RequestToken)
         myRef.removeValue()
 notifyDataSetChanged()
-        Log.e("TAG", "rejectrequrest: ", )
+        Log.e("TAG", "rejectrequrest: " )
 
 
     }
 
     private fun acceptrequest(requestuser: User_Info) {
         //check is requestid is already present then delete
-        Log.e("TAG", "accept: ww", )
+        Log.e("TAG", "accept: ww")
 
         myRef = database.getReference("Private/friend_list/"+ currentUser!!.uid )
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.hasChild(requestuser.RequestToken)){
                     rejectrequrest(requestuser)
-                    Log.e("TAG", "rejectrequrest: ", )
+                    Log.e("TAG", "rejectrequrest: " )
 
                 }
                 else
                 {
                     myRef = database.getReference("Private/friend_list/"+ currentUser!!.uid +"/"+requestuser.RequestToken)
                     myRef.setValue(requestuser);
-                    Log.e("TAG", "accept: ", )
+                    Log.e("TAG", "accept: " )
 
                     rejectrequrest(requestuser)
                 }
