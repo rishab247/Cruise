@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    id 'kotlin-android-extensions'
  }
 
 
@@ -11,10 +12,6 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
-
-    dataBinding {
-        enabled = true
-    }
 
     defaultConfig {
         applicationId "com.example.cruise"
@@ -70,4 +67,19 @@ dependencies {
 
     implementation "com.google.ar:core:1.23.0"
 
+
+
+    // new dependencies
+
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // Obj - a simple Wavefront OBJ file loader
+    // https://github.com/javagl/Obj
+    implementation 'de.javagl:obj:0.3.0'
+
+    implementation 'com.google.ar:core:1.14.0'
 }
