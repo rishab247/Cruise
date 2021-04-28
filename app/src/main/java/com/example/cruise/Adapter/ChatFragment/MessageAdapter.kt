@@ -70,7 +70,10 @@ class MessageAdapter(
         }
         else{
             Log.e(TAG, "onBindViewHolder: 1eeeeghhhg"  )
-//            holder.messageImage!!.setImageResource(R.drawable.bg_receive_message)
+            holder.messageImage!!.setOnClickListener({
+                Log.e(TAG, "onBindViewHolder: 1eeeeghhhg"  )
+
+            })
             downloadFile(message,holder.messageImage)
         }
 
