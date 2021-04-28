@@ -37,19 +37,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cruise"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data android:name="com.google.ar.core" android:value="required" />
+
         <activity android:name=".ARcore"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="locked"
             android:theme="@style/SplashTheme">
-
-            <meta-data
-                android:name="com.google.ar.core"
-                android:value="required" />
-
-
-
-
         </activity>
         <activity android:name=".UI.Tabs.Chat.MessageActivity" />
         <activity

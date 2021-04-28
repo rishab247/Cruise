@@ -25,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.cruise.Adapter.MyAppGlideModule
 import com.example.cruise.Data.Messages
 import com.example.cruise.Data.User_Info
+import com.example.cruise.Helper.ImageHelper
 import com.example.cruise.R
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.android.gms.tasks.OnFailureListener
@@ -92,6 +93,7 @@ class MessageAdapter(
 
     }
     private fun downloadFile(  message: Messages,messageImage : ImageView?) {
+        var imagecurver : ImageHelper = ImageHelper()
 
          var checkfile =  File(Environment.getExternalStorageDirectory().toString() +"/cruise/"+senderInfo.msgToken +"/"+ message.mLocation +".jpg")
 //        Log.e(TAG, "downloadFile: " + "message/" + checkfile.toUri()+checkfile.exists())
@@ -118,8 +120,8 @@ class MessageAdapter(
                          val bitmap: Bitmap = MediaStore.Images.Media.getBitmap( context.contentResolver , checkfile.toUri())
 
                         Glide.with(context)
-                            .load(bitmap).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                            .centerCrop() .into(messageImage)
+                            .load(imagecurver.getRoundedCornerBitmap(bitmap,25)). centerCrop().apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                              .into(messageImage)
                     }
 
                     //  updateDb(timestamp,localFile.toString(),position);
@@ -141,8 +143,8 @@ class MessageAdapter(
                     val bitmap: Bitmap = MediaStore.Images.Media.getBitmap( context.contentResolver , checkfile.toUri())
 
                    Glide.with(context)
-                       .load(bitmap).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                       .centerCrop() .into(messageImage)
+                       .load(imagecurver.getRoundedCornerBitmap(bitmap,25)).centerCrop().apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                         .into(messageImage)
 
                }
                 catch ( e : NullPointerException){

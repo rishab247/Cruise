@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.cruise.Data.User_Info
@@ -37,6 +34,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var   mUidInput: EditText
     lateinit var  nameInput: TextInputLayout
     lateinit var  mNameInput: EditText
+    lateinit var  mNameInput1: TextView
     lateinit var  mSaveButton: Button
     lateinit var  mLogoutButton: Button
     lateinit var  mStatusInput: EditText
@@ -66,6 +64,7 @@ class ProfileActivity : AppCompatActivity() {
         uidInput = findViewById(R.id.textInputLayout)
         nameInput = findViewById(R.id.textInputLayout2)
         mNameInput = findViewById(R.id.second)
+        mNameInput1 = findViewById(R.id.name)
         mSaveButton = findViewById(R.id.button)
         mStatusInput = findViewById(R.id.status_id)
         mEditProfile = findViewById(R.id.editProfile)
@@ -225,7 +224,8 @@ class ProfileActivity : AppCompatActivity() {
             if(!user_info.status.toString().trim().isEmpty())
              mStatusInput.setText(user_info.status);
 
-            mNameInput.setText(user_info.Name);
+        mNameInput.setText(user_info.Name);
+        mNameInput1.setText(user_info.Name);
 
         mUidInput.setText(user_info.Uid);
         mEmailInput.setText(user_info.Email)
