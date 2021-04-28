@@ -15,15 +15,27 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Registry
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.module.AppGlideModule
+import com.bumptech.glide.request.RequestOptions
+import com.example.cruise.Adapter.MyAppGlideModule
 import com.example.cruise.Data.Messages
 import com.example.cruise.Data.User_Info
 import com.example.cruise.R
+import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.InputStream
+import java.lang.NullPointerException
 
 
 class MessageAdapter(
@@ -84,13 +96,13 @@ class MessageAdapter(
          var checkfile =  File(Environment.getExternalStorageDirectory().toString() +"/cruise/"+senderInfo.msgToken +"/"+ message.mLocation +".jpg")
 //        Log.e(TAG, "downloadFile: " + "message/" + checkfile.toUri()+checkfile.exists())
 
-        if(!checkfile.exists()) {
+        if( !checkfile.exists()) {
             Log.e(TAG, "downloadFile: " + "message/" + senderInfo.msgToken)
             val storageRef = storage.getReference("message/" + senderInfo.msgToken)
             val islandRef = storageRef.child(message.mLocation)
             val rootPath =
                 File(Environment.getExternalStorageDirectory(), "cruise/" + senderInfo.msgToken)
-            if (!rootPath.exists()) {
+            if ( !rootPath.exists()) {
                 rootPath.mkdirs()
             }
 
@@ -104,11 +116,10 @@ class MessageAdapter(
                         ";local tem file created  created " + localFile.toString()+"   "+Uri.fromFile(  File(localFile.toString()))
                     )
                          val bitmap: Bitmap = MediaStore.Images.Media.getBitmap( context.contentResolver , checkfile.toUri())
-                        val stream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream)
-                        val bitmap1 = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.toByteArray().size)
 
-                        messageImage .setImageBitmap(  bitmap1 )
+                        Glide.with(context)
+                            .load(bitmap).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .centerCrop() .into(messageImage)
                     }
 
                     //  updateDb(timestamp,localFile.toString(),position);
@@ -120,13 +131,34 @@ class MessageAdapter(
                 })
         }
         else{
-//            var ss: Uri? = checkfile.toUri()
-            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap( context.contentResolver , checkfile.toUri())
-             val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream)
-            val bitmap1 = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.toByteArray().size)
+            val storageRef = storage.getReference("message/" + senderInfo.msgToken)
 
-            messageImage!!.setImageBitmap(  bitmap1 )
+//            var ss: Uri? = checkfile.toUri()
+
+            Log.e(TAG, "downloadFile: "+"dss" )
+            if (messageImage != null) {
+                try {
+                    val bitmap: Bitmap = MediaStore.Images.Media.getBitmap( context.contentResolver , checkfile.toUri())
+
+                   Glide.with(context)
+                       .load(bitmap).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                       .centerCrop() .into(messageImage)
+
+               }
+                catch ( e : NullPointerException){
+                    Log.e(TAG, e.toString()+"123")
+                }
+            }
+
+
+//
+//            var ss: Uri? = checkfile.toUri()
+//            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap( context.contentResolver , checkfile.toUri())
+//             val stream = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream)
+//            val bitmap1 = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.toByteArray().size)
+//
+//            messageImage!!.setImageBitmap(  bitmap1 )
 
         }
     }
