@@ -1,7 +1,5 @@
-#version 300 es
 /*
- * Copyright 2020 Google LLC
- *
+ * Copyright 2017 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,17 +16,17 @@
 uniform mat4 u_ModelView;
 uniform mat4 u_ModelViewProjection;
 
-layout(location = 0) in vec4 a_Position;
-layout(location = 1) in vec2 a_TexCoord;
-layout(location = 2) in vec3 a_Normal;
+attribute vec4 a_Position;
+attribute vec3 a_Normal;
+attribute vec2 a_TexCoord;
 
-out vec3 v_ViewPosition;
-out vec3 v_ViewNormal;
-out vec2 v_TexCoord;
+varying vec3 v_ViewPosition;
+varying vec3 v_ViewNormal;
+varying vec2 v_TexCoord;
 
 void main() {
-  v_ViewPosition = (u_ModelView * a_Position).xyz;
-  v_ViewNormal = normalize((u_ModelView * vec4(a_Normal, 0.0)).xyz);
-  v_TexCoord = a_TexCoord;
-  gl_Position = u_ModelViewProjection * a_Position;
+    v_ViewPosition = (u_ModelView * a_Position).xyz;
+    v_ViewNormal = normalize((u_ModelView * vec4(a_Normal, 0.0)).xyz);
+    v_TexCoord = a_TexCoord;
+    gl_Position = u_ModelViewProjection * a_Position;
 }

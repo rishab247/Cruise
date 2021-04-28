@@ -1,7 +1,5 @@
-#version 300 es
 /*
- * Copyright 2020 Google LLC
- *
+ * Copyright 2017 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,20 +12,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#extension GL_OES_EGL_image_external : require
 
-layout(location = 0) in vec4 a_Position;
-layout(location = 1) in vec2 a_CameraTexCoord;
-layout(location = 2) in vec2 a_VirtualSceneTexCoord;
+precision mediump float;
+varying vec2 v_TexCoord;
+uniform samplerExternalOES sTexture;
 
-#if USE_OCCLUSION
-out vec2 v_CameraTexCoord;
-#endif
-out vec2 v_VirtualSceneTexCoord;
 
 void main() {
-  gl_Position = a_Position;
-#if USE_OCCLUSION
-  v_CameraTexCoord = a_CameraTexCoord;
-#endif
-  v_VirtualSceneTexCoord = a_VirtualSceneTexCoord;
+    gl_FragColor = texture2D(sTexture, v_TexCoord);
 }

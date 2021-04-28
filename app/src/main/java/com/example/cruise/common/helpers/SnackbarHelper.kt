@@ -1,5 +1,6 @@
 package com.example.cruise.common.helpers
 
+
 import android.app.Activity
 import com.google.android.material.snackbar.BaseTransientBottomBar.BaseCallback
 import com.google.android.material.snackbar.Snackbar

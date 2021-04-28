@@ -1,7 +1,5 @@
-#version 300 es
 /*
- * Copyright 2017 Google LLC
- *
+ * Copyright 2017 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,11 +14,15 @@
  */
 
 uniform mat4 u_ModelViewProjection;
+uniform vec4 u_Color;
 uniform float u_PointSize;
 
-layout(location = 0) in vec4 a_Position;
+attribute vec4 a_Position;
+
+varying vec4 v_Color;
 
 void main() {
-  gl_Position = u_ModelViewProjection * a_Position;
-  gl_PointSize = u_PointSize;
+   v_Color = u_Color;
+   gl_Position = u_ModelViewProjection * vec4(a_Position.xyz, 1.0);
+   gl_PointSize = u_PointSize;
 }

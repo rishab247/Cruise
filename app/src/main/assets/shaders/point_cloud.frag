@@ -1,7 +1,5 @@
-#version 300 es
 /*
- * Copyright 2017 Google LLC
- *
+ * Copyright 2017 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,12 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 precision mediump float;
-
-uniform vec4 u_Color;
-
-out vec4 o_FragColor;
+varying vec4 v_Color;
 
 void main() {
-  o_FragColor = u_Color;
+    gl_FragColor = v_Color;
 }
