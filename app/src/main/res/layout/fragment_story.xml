@@ -8,12 +8,56 @@
     tools:context=".UI.Tabs.StoryFragment">
 
 
-    <Button
-        android:id="@+id/button2"
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="arvr.json"
+        app:lottie_loop="true" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="camera.json"
+        app:lottie_loop="true" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/button"
+        android:padding="4dp"
+        android:text="Use camera"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="@+id/lottieAnimationView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/lottieAnimationView3"
+        app:layout_constraintTop_toTopOf="@+id/lottieAnimationView3" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explore the world of Augmented Reality"
+        android:textColor="@color/red"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

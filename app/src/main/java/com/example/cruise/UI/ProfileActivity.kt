@@ -30,23 +30,23 @@ class ProfileActivity : AppCompatActivity() {
 
     //View
     lateinit var mProfileImage: CircleImageView
-    lateinit var   uidInput: TextInputLayout
-    lateinit var   mUidInput: EditText
-    lateinit var  nameInput: TextInputLayout
-    lateinit var  mNameInput: EditText
-    lateinit var  mNameInput1: TextView
-    lateinit var  mSaveButton: Button
-    lateinit var  mLogoutButton: Button
-    lateinit var  mStatusInput: EditText
-    lateinit var  mEmailInput: EditText
-    lateinit var  mEditProfile: ImageView
+    lateinit var uidInput: TextInputLayout
+    lateinit var mUidInput: EditText
+    lateinit var nameInput: TextInputLayout
+    lateinit var mNameInput: EditText
+    lateinit var mNameInput1: TextView
+    lateinit var mSaveButton: Button
+    lateinit var mLogoutButton: Button
+    lateinit var mStatusInput: EditText
+    lateinit var mEmailInput: EditText
+    lateinit var mEditProfile: ImageView
 
 
     //DATABASE
-    lateinit var user_info:User_Info
+    lateinit var user_info: User_Info
     lateinit var mAuth: FirebaseAuth
     lateinit var database: FirebaseDatabase
-     var  currentUser : FirebaseUser? =null
+    var currentUser: FirebaseUser? = null
     lateinit var myRef: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +54,10 @@ class ProfileActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
-         currentUser = mAuth.currentUser
-        Toast.makeText(
-                baseContext, mAuth.uid+"  ",
-                Toast.LENGTH_SHORT).show()
+        currentUser = mAuth.currentUser
+//        Toast.makeText(
+//                baseContext, mAuth.uid + "  ",
+//                Toast.LENGTH_SHORT).show()
 
         registerMode = intent.getBooleanExtra("Register", false)
         mUidInput = findViewById(R.id.first)
@@ -103,16 +103,20 @@ class ProfileActivity : AppCompatActivity() {
             nameInput.isEnabled = true
             mStatusInput.isEnabled = true
             mSaveButton.visibility = View.VISIBLE
+            mLogoutButton.visibility = View.GONE
         }
         if (registerMode) {
             mEditProfile.callOnClick()
             mEditProfile.isClickable = false
         }
-        mLogoutButton.setOnClickListener{
+        mLogoutButton.setOnClickListener {
             mAuth.signOut()
             Toast.makeText(
                     baseContext, "Logout.",
                     Toast.LENGTH_SHORT).show()
+            intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         mSaveButton.setOnClickListener {
             if (mSaveButton.isVisible) {
@@ -131,6 +135,7 @@ class ProfileActivity : AppCompatActivity() {
                 if (inputflag) {
                     savedata()
                     mSaveButton.visibility = View.GONE
+                    mLogoutButton.visibility = View.VISIBLE
                     uidInput.isEnabled = false
                     nameInput.isEnabled = false
                     mStatusInput.isEnabled = false
@@ -139,10 +144,7 @@ class ProfileActivity : AppCompatActivity() {
                     intent = Intent(this, MainPage::class.java)
                     finish()
                     startActivity(intent)
-
-
                 }
-
 
 
             }
@@ -155,19 +157,19 @@ class ProfileActivity : AppCompatActivity() {
         user_info.Name = mNameInput.text.toString()
         user_info.status = mStatusInput.text.toString()
 
-        myRef = database.getReference("Public/member_list/"  )
-        if(registerMode) {
+        myRef = database.getReference("Public/member_list/")
+        if (registerMode) {
             user_info.RequestToken = myRef.push().getKey().toString()
             user_info.Token = myRef.push().getKey().toString()
         }
-        Log.e(TAG, "savedata: "+user_info.RequestToken )
+        Log.e(TAG, "savedata: " + user_info.RequestToken)
         user_info.save(this)
 
 
-        myRef = database.getReference("Private/User_Info/" + (currentUser?.uid ?:"error" ))
+        myRef = database.getReference("Private/User_Info/" + (currentUser?.uid ?: "error"))
         myRef.setValue(user_info)
         user_info.Token = ""
-        myRef = database.getReference("Public/member_list/"  + user_info.RequestToken)
+        myRef = database.getReference("Public/member_list/" + user_info.RequestToken)
         myRef.setValue(user_info)
 
     }
@@ -179,22 +181,22 @@ class ProfileActivity : AppCompatActivity() {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
             imageuri = data!!.data
             CropImage.activity(imageuri)
-                .setAspectRatio(1, 1)
-                .start(this)
+                    .setAspectRatio(1, 1)
+                    .start(this)
         }
-        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
 
-            var result : CropImage.ActivityResult = CropImage.getActivityResult(data)
+            var result: CropImage.ActivityResult = CropImage.getActivityResult(data)
 
-            if(resultCode == RESULT_OK){
-                var resultUri : Uri = result.uri;
+            if (resultCode == RESULT_OK) {
+                var resultUri: Uri = result.uri;
 
                 try {
                     var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, resultUri)
                     val converetdImage: Bitmap = getResizedBitmap(bitmap, 200)
                     mProfileImage.setImageBitmap(converetdImage)
 
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     Log.e("Exception in image", e.message.toString())
                 }
             }
@@ -203,14 +205,14 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun getResizedBitmap(bitmap: Bitmap, i: Int): Bitmap {
-        var width : Int = bitmap.width
-        var height :Int  = bitmap.height
+        var width: Int = bitmap.width
+        var height: Int = bitmap.height
 
-        var bitmapratio : Float = width.toFloat()/height
-        if(bitmapratio > 1){
+        var bitmapratio: Float = width.toFloat() / height
+        if (bitmapratio > 1) {
             width = i
-            height = (width/bitmapratio).toInt()
-        }else{
+            height = (width / bitmapratio).toInt()
+        } else {
             height = i
             width = (height * bitmapratio).toInt()
         }
@@ -221,8 +223,8 @@ class ProfileActivity : AppCompatActivity() {
     private fun setfields() {
 
         Log.e(TAG, "setfields: " + user_info.Email)
-            if(!user_info.status.toString().trim().isEmpty())
-             mStatusInput.setText(user_info.status);
+        if (!user_info.status.toString().trim().isEmpty())
+            mStatusInput.setText(user_info.status);
 
         mNameInput.setText(user_info.Name);
         mNameInput1.setText(user_info.Name);
@@ -237,8 +239,7 @@ class ProfileActivity : AppCompatActivity() {
         Log.e(TAG, "onBackPressed: $registerMode")
         if (!registerMode) {
             super.onBackPressed()
-        }
-        else{
+        } else {
             mAuth.signOut()
             finish()
         }
